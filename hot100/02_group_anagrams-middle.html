@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>49. 字母异位词分组</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
+       * 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。
+       */
+
+      function transform(str) {
+        let len = str.length;
+        let binary = new Array(26).fill(0);
+        for (let i = 0; i < len; i++) {
+          binary[str.charCodeAt(i) - 97]++;
+        }
+        return `${binary.join("-")}-${len}`;
+      }
+      /**
+       * @param {string[]} strs
+       * @return {string[][]}
+       */
+
+      var groupAnagrams = function (strs) {
+        const map = new Map(); // { sum: number , count : number} -> []
+        const result = [];
+
+        for (const str of strs) {
+          const mark = transform(str);
+          if (map.get(mark)) {
+            map.get(mark).push(str);
+          } else {
+            map.set(mark, [str]);
+          }
+        }
+
+        for (const [key, value] of map) {
+          result.push(value);
+        }
+
+        return result;
+      };
+
+      const result = groupAnagrams(["bdddddddddd", "bbbbbbbbbbc"]);
+      console.log(result);
+    </script>
+  </body>
+</html>

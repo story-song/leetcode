@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var merge = function (nums1, m, nums2, n) {
+        // 给你两个按 非递减顺序 排列的整数数组 nums1 和 nums2，另有两个整数 m 和 n ，分别表示 nums1 和 nums2 中的元素数目。
+        // 请你 合并 nums2 到 nums1 中，使合并后的数组同样按 非递减顺序 排列
+
+        // 方法一，空间换时间；
+
+        // nums1 的长度更长一些
+        let arr = [];
+
+        let p1 = 0;
+        let p2 = 0;
+
+        while (p1 < m && p2 < n) {
+          const v1 = nums1[p1];
+          const v2 = nums2[p2];
+
+          if (v1 < v2) {
+            arr.push(v1);
+            p1++;
+          } else {
+            arr.push(v2);
+            p2++;
+          }
+        }
+
+        if (p1 === m) {
+          // nums1 已经用完
+          for (let i = p2; i < n; i++) {
+            arr.push(nums2[i]);
+          }
+        }
+
+        if (p2 === n) {
+          // nums1 已经用完
+          for (let i = p1; i < m; i++) {
+            arr.push(nums1[i]);
+          }
+        }
+
+        for (let i = 0; i < arr.length; i++) {
+          nums1[i] = arr[i];
+        }
+
+        return nums1;
+      };
+    </script>
+  </body>
+</html>
