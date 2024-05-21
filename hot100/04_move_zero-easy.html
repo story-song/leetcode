@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @return {void} Do not return anything, modify nums in-place instead.
+       */
+
+      // var moveZeroes = function (nums) {
+      //   // debugger
+
+      //   for (let i = 0; i < nums.length; i++) {
+      //     const num = nums[i];
+
+      //     if (num === 0) {
+      //       // 和下一个不是0的交换
+      //       for (let j = i; j < nums.length - 1; j++) {
+      //         if (nums[j + 1] !== 0) {
+      //           change(nums, i, j + 1);
+      //           break;
+      //         }
+      //       }
+      //     }
+      //   }
+
+      //   return nums;
+      // };
+
+      var change = (arr, i, j) => {
+        let tep = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tep;
+      };
+
+      var moveZeroes = function (nums) {
+        let slow = 0;
+        let fast = 0;
+
+        while (fast < nums.length) {
+          if (nums[fast] !== 0) {
+            change(nums, slow, fast);
+            slow++;
+          }
+          fast++;
+        }
+
+        return nums;
+      };
+
+      // 这个不是最优解，复杂度要高一些，利用双指针去做会更好一点；
+
+      console.log(moveZeroes([0, 1, 0, 0, 0, 0, 3, 12]));
+    </script>
+  </body>
+</html>

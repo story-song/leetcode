@@ -13,8 +13,9 @@
        */
 
       function transform(str) {
+        // 关键就是这一步
         let len = str.length;
-        let binary = new Array(26).fill(0);
+        let binary = new Array(26).fill(0); // 一个单词可以由这些来进行组成 ， 异位词可以使用上面的方式来进行表示
         for (let i = 0; i < len; i++) {
           binary[str.charCodeAt(i) - 97]++;
         }
@@ -26,6 +27,7 @@
        */
 
       var groupAnagrams = function (strs) {
+        // 这个就是最优解
         const map = new Map(); // { sum: number , count : number} -> []
         const result = [];
 

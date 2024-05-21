@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>128. 最长连续序列</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
+       * 请你设计并实现时间复杂度为 O(n) 的算法解决此问题。
+       */
+      // function buildMax(num, count, record) {
+      //   let origin = num;
+
+      //   while (true) {
+      //     const nextNumCount = record.get(num + 1);
+
+      //     if (!nextNumCount) {
+      //       record.set(origin, count);
+      //       return count;
+      //     } else {
+      //       count += nextNumCount;
+      //       num += nextNumCount;
+      //       record.delete(num);
+      //     }
+      //   }
+      // }
+
+      // var longestConsecutive = function (nums) {
+      //   const record = new Map(); // { number -> count }
+
+      //   for (let i = 0; i < nums.length; i++) {
+      //     record.set(nums[i], 1);
+      //   }
+
+      //   let max = 0;
+
+      //   for (const [num, count] of record) {
+      //     // 从num开始构建
+      //     max = Math.max(max, buildMax(num, count, record));
+      //   }
+
+      //   return max;
+      // };
+
+      // 上面的方法其实也可以，只不过可读性非常的不好，最优解是这个
+
+      var longestConsecutive = function (nums) {
+        let set = new Set(nums);
+
+        let max = 0;
+
+        for (let i = 0; i < nums.length; i++) {
+          const num = nums[i];
+
+          if (set.has(num - 1)) continue; // 如果有前驱节点直接选择跳过
+
+          // 不存在
+          let count = 1;
+
+          while (set.has(num + count)) {
+            count++;
+          }
+
+          max = Math.max(max, count);
+        }
+
+        return max;
+      };
+
+      console.log(longestConsecutive([0, 3, 7, 2, 5, 8, 4, 6, 0, 1]));
+    </script>
+  </body>
+</html>

@@ -13,40 +13,61 @@
        * 你可以按任意顺序返回答案。
        */
 
-      class Num {
-        constructor(v) {
-          this.value = v;
-        }
-      }
+      // class Num {
+      //   constructor(v) {
+      //     this.value = v;
+      //   }
+      // }
 
       /**
        * @param {number[]} nums
        * @param {number} target
        * @return {number[]}
        */
+      // var twoSum = function (nums, target) { // O(N*logN)  因为涉及排序了
+      //   const indexMap = new Map();
+      //   const numArray = [];
+
+      //   for (let i = 0; i < nums.length; i++) {
+      //     const num = new Num(nums[i]);
+      //     numArray.push(num);
+      //     indexMap.set(num, i);
+      //   }
+
+      //   numArray.sort((a, b) => a.value - b.value);
+
+      //   let l = 0;
+      //   let r = nums.length - 1;
+
+      //   while (l < r) {
+      //     const sum = numArray[l].value + numArray[r].value;
+      //     if (sum === target) {
+      //       return [indexMap.get(numArray[l]), indexMap.get(numArray[r])];
+      //     } else if (sum > target) {
+      //       r--;
+      //     } else {
+      //       l++;
+      //     }
+      //   }
+
+      //   return [];
+      // };
+
+      // 上面的方法不是最优解；
+
       var twoSum = function (nums, target) {
-        const indexMap = new Map();
-        const numArray = [];
+        // 使用一个map应该才是最优解
+        const map = new Map();
 
         for (let i = 0; i < nums.length; i++) {
-          const num = new Num(nums[i]);
-          numArray.push(num);
-          indexMap.set(num, i);
+          map.set(nums[i], i);
         }
 
-        numArray.sort((a, b) => a.value - b.value);
+        for (let i = 0; i < nums.length; i++) {
+          const num = nums[i];
 
-        let l = 0;
-        let r = nums.length - 1;
-
-        while (l < r) {
-          const sum = numArray[l].value + numArray[r].value;
-          if (sum === target) {
-            return [indexMap.get(numArray[l]), indexMap.get(numArray[r])];
-          } else if (sum > target) {
-            r--;
-          } else {
-            l++;
+          if (map.has(target - num) && map.get(target - num) !== i) {
+            return [i, map.get(target - num)];
           }
         }
 

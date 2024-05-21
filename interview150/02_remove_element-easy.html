@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>27. 移除元素</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。
+       * 然后返回 nums 中与 val 不同的元素的数量。
+       */
+
+      /**
+       * @param {number[]} nums
+       * @param {number} val
+       * @return {number}
+       */
+      // var removeElement = function (nums, val) {
+      //   // 方法一：
+      //   let arr = [];
+
+      //   for (let i = 0; i < nums.length; i++) {
+      //     if (nums[i] !== val) {
+      //       arr.push(nums[i]);
+      //     } else {
+      //       nums[i] = null;
+      //     }
+      //   }
+
+      //   for (let i = 0; i < nums.length; i++) {
+      //     nums[i] = arr[i];
+      //   }
+
+      //   return arr.length;
+      // };
+
+      var swap = function (arr, i, j) {
+        if (i === j) {
+          return;
+        }
+
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      };
+
+      var removeElement = function (nums, val) {
+        // 方法二：
+
+        // debugger;
+        for (let i = 0; i < nums.length; i++) {
+          const num = nums[i];
+          if (num === val) {
+            // 需要将当前的目标元素跟右边最远的一个不是目标元素的数交换位置
+            let j = i + 1;
+            while (nums[j] === val && j < nums.length) {
+              // 这个地方肯定是可以优化的以便节省时间；
+              j++;
+            }
+
+            if (j === nums.length) {
+              // 说明到头了 从i 开始到 j
+              return nums.length - (j - i);
+            }
+
+            swap(nums, i, j);
+          }
+        }
+
+        // return nums;
+      };
+
+      console.log(removeElement([3, 2, 2, 3], 3));
+      console.log(removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2));
+    </script>
+  </body>
+</html>

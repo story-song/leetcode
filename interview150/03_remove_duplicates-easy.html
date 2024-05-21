@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。
+       * 元素的 相对顺序 应该保持 一致 。然后返回 nums 中唯一元素的个数。
+       */
+
+      /**
+       * @param {number[]} nums
+       * @return {number}
+       */
+      var removeDuplicates = function (nums) {
+        //
+
+        if (nums.length <= 1) {
+          return nums;
+        }
+
+        // 这不就是数组去重复嘛？ 就是引导我们使用移动的策略，而非额外的辅助数组
+
+        // 方法一：属于比较暴力的解法
+        const set = new Set();
+
+        for (let i = 0; i < nums.length; i++) {
+          const num = nums[i];
+          if (set.has(num)) {
+            // 曾今出现过
+            nums.splice(i, 1);
+            i--;
+          } else {
+            // 还没出现过
+            set.add(num);
+          }
+        }
+
+        return nums.length;
+      };
+    </script>
+  </body>
+</html>
