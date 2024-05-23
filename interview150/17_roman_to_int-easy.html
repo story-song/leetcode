@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。
+       *
+       * 字符          数值
+       * I             1
+       * V             5
+       * X             10
+       * L             50
+       * C             100
+       * D             500
+       * M             1000
+       *
+       * 例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做
+       */
+
+      /**
+       * @param {string} s
+       * @return {number}
+       */
+      var romanToInt = function (s) {
+        const numMap = {
+          I: 1,
+          V: 5,
+          X: 10,
+          L: 50,
+          C: 100,
+          D: 500,
+          M: 1000,
+          IV: 4,
+          IX: 9,
+          XL: 40,
+          XC: 90,
+          CD: 400,
+          CM: 900,
+        };
+
+        let res = 0;
+
+        // debugger;
+
+        for (let i = 0; i < s.length; ) {
+          if (i + 2 <= s.length) {
+            if (numMap[s.substring(i, i + 2)]) {
+              res += numMap[s.slice(i, i + 2)];
+              i += 2;
+            } else {
+              if (numMap[s.substring(i, i + 1)]) {
+                res += numMap[s.slice(i, i + 1)];
+                i += 1;
+              }
+            }
+          } else if (i + 1 <= s.length) {
+            if (numMap[s.substring(i, i + 1)]) {
+              res += numMap[s.slice(i, i + 1)];
+              i += 1;
+            }
+          }
+        }
+
+        return res;
+      };
+
+      console.log(romanToInt("MCMXCIV"));
+
+      console.log(romanToInt("LVIII"));
+
+      console.log(romanToInt("III"));
+    </script>
+  </body>
+</html>

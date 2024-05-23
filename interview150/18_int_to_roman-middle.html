@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number} num
+       * @return {string}
+       */
+      var intToRoman = function (num) {
+        // 将其转为罗马数字
+        const numMap = {
+          I: 1,
+          V: 5,
+          X: 10,
+          L: 50,
+          C: 100,
+          D: 500,
+          M: 1000,
+          IV: 4,
+          IX: 9,
+          XL: 40,
+          XC: 90,
+          CD: 400,
+          CM: 900,
+        };
+
+        let res = "";
+
+        let arr = [
+          "M",
+          "CM",
+          "D",
+          "CD",
+          "C",
+          "XC",
+          "L",
+          "XL",
+          "X",
+          "IX",
+          "V",
+          "IV",
+          "I",
+        ]; // 这是一个按照大小来排的数字
+        // 3999
+        for (let i = 0; i < arr.length; i++) {
+          let cost = numMap[arr[i]];
+          while (cost <= num) {
+            res += arr[i];
+            num -= cost;
+          }
+        }
+
+        return res;
+      };
+
+      console.log(
+        intToRoman(3),
+        intToRoman(58),
+        intToRoman(1994),
+        intToRoman(4),
+        intToRoman(9),
+        intToRoman(40),
+        intToRoman(90),
+        intToRoman(400),
+        intToRoman(900),
+        intToRoman(3999)
+      );
+    </script>
+  </body>
+</html>

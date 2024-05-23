@@ -1,53 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    // 方法一：暴力解法，枚举
-    /**
-     * @param {number[]} height
-     * @return {number}
-     */
-    var maxArea = function(height) {
-      let max = 0;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 方法一：暴力解法，枚举
+      /**
+       * @param {number[]} height
+       * @return {number}
+       */
+      var maxArea = function (height) {
+        // 这个就是最优解了
+        let max = 0;
 
-      let left = 0;
-      let right = height.length - 1;
+        let left = 0;
+        let right = height.length - 1;
 
-      while (left < right) {
+        while (left < right) {
+          max = Math.max(max, getArea(height, left, right)); // 只是计算一下
 
-        max = Math.max(max , getArea(height,left , right))
-
-        if(height[left] > height[right]){
-          right--;
-        }else{
-          left++;
+          if (height[left] > height[right]) {
+            right--;
+          } else {
+            left++;
+          }
         }
 
+        return max;
+      };
+
+      function getArea(arr, i, j) {
+        const height = Math.abs(j - i);
+        const width = Math.min(arr[i], arr[j]);
+        return width * height;
       }
 
-      return max;
-    };
+      // 最重要是需要观察，观察数据状态，分析其中的规律才是最重要的，比如这一题要明白一个道理
+      // 收窄长板，是不可能让面积增大的，因为面积是由短板加间距构成的，收窄长板是一定不会浮现出更大的值得
+      // 相反，收窄短板才有可能让更大得面积出现，因为如果遇到更短得了，前一条记录已经被记住了，如果遇到长得就有可能得到更大得值
+      // 所以谁短就去收窄谁
 
-
-
-    function getArea(arr , i , j){
-      const height = Math.abs(j - i) ;
-      const width = Math.min(arr[i] , arr[j]);
-      return width * height;
-    }
-
-    // 最重要是需要观察，观察数据状态，分析其中的规律才是最重要的，比如这一题要明白一个道理
-    // 收窄长板，是不可能让面积增大的，因为面积是由短板加间距构成的，收窄长板是一定不会浮现出更大的值得
-    // 相反，收窄短板才有可能让更大得面积出现，因为如果遇到更短得了，前一条记录已经被记住了，如果遇到长得就有可能得到更大得值
-    // 所以谁短就去收窄谁
-
-    console.log(maxArea([1,8,6,2,5,4,8,3,7]));
-
-  </script>
-</body>
+      console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]));
+    </script>
+  </body>
 </html>

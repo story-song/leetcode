@@ -1,88 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 在一条环路上有 n 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
+       * 你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。
+       * 给定两个整数数组 gas 和 cost ，如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。如果存在解，则 保证 它是 唯一 的。
+       */
 
-    /**
-     * 在一条环路上有 n 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
-     * 你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。
-     * 给定两个整数数组 gas 和 cost ，如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。如果存在解，则 保证 它是 唯一 的。
-    */
+      /**
+       * @param {number[]} gas
+       * @param {number[]} cost
+       * @return {number}
+       */
+      // var canCompleteCircuit = function(gas, cost) {
+      //   // 是否可以走完一圈；
+      //   // 方法一：暴力尝试
 
-    /**
-     * @param {number[]} gas
-     * @param {number[]} cost
-     * @return {number}
-     */
-    var canCompleteCircuit = function(gas, cost) {
-      // 是否可以走完一圈；
-      // 方法一：暴力尝试
+      //   let len = gas.length; // O(N**2) 的算法
 
-      let len = gas.length; // O(N**2) 的算法
+      //   for(let i = 0 ;i < len ;i++) {
+      //     // 选择从 i 出开始出发
+      //     let rest = 0; // 邮箱里面剩的油
 
-      for(let i = 0 ;i < len ;i++) {
-        // 选择从 i 出开始出发
-        let rest = 0; // 邮箱里面剩的油
-        
-        let step = len + 1 ;
-        let cur = i;
+      //     let step = len + 1 ;
+      //     let cur = i;
 
-        while (step) {
-           
-          // 来到了第i步
-          step--;
-          rest+= gas[cur];
-          
-          // 判断是否可以往下走
+      //     while (step) {
 
-          if(rest < cost[cur]){
-            // 无法前往下一个
-            break;
-          }
+      //       // 来到了第i步
+      //       step--;
+      //       rest+= gas[cur];
 
-          const cost_monty = cost[cur]
+      //       // 判断是否可以往下走
 
-          if(cur === len - 1){
-            cur = 0;
-          }else{
+      //       if(rest < cost[cur]){
+      //         // 无法前往下一个
+      //         break;
+      //       }
+
+      //       const cost_monty = cost[cur]
+
+      //       if(cur === len - 1){
+      //         cur = 0;
+      //       }else{
+      //         cur++;
+      //       }
+
+      //       rest-=cost_monty;
+
+      //     }
+
+      //     if(!step){
+      //       return i;
+      //     }
+
+      //   }
+
+      //   return -1;
+
+      // };
+
+      // 题解：假设从x加油站出发经过z加油站最远能到达y加油站，那么从z加油站直接出发，不可能到达y下一个加油站。
+      // 因为从x出发到z加油站时肯定还有存储的油，这都到不了y的下一站，而直接从z出发刚开始是没有存储的油的，所以更不可能到达y的下一站。
+      /**
+       * @param {number[]} gas
+       * @param {number[]} cost
+       * @return {number}
+       */
+      var canCompleteCircuit = function (gas, cost) {
+        let len = gas.length;
+        for (let i = 0; i < len; i++) {
+          let cur = i; // 从start开始尝试
+          let step = len;
+          let rest = 0;
+          while (step) {
+            rest += gas[cur % len] - cost[cur % len];
+            if (rest < 0) {
+              i = cur;
+              break;
+            }
             cur++;
+            step--;
           }
 
-          rest-=cost_monty;
-
+          if (step === 0) {
+            return i;
+          }
         }
 
+        return -1;
+      };
 
-        if(!step){
-          return i;
-        }
+      // console.log(canCompleteCircuit([1, 2, 3, 4, 5], [3, 4, 5, 1, 2]));
 
-      }
-
-      return -1;
-
-    };
-
-
-
-    console.log(
-      canCompleteCircuit(
-        [1,2,3,4,5],  [3,4,5,1,2]
-      )
-    );
-
-    console.log(
-      canCompleteCircuit(
-        [2,3,4],  [3,4,3]
-      )
-    );
-
-    
-  </script>
-</body>
+      console.log(canCompleteCircuit([2, 3, 4], [3, 4, 3]));
+    </script>
+  </body>
 </html>
