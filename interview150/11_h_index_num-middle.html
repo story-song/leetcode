@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+    /**
+     * 给你一个整数数组 citations ，其中 citations[i] 表示研究者的第 i 篇论文被引用的次数。计算并返回该研究者的 h 指数。
+     * 根据维基百科上 h 指数的定义：h 代表“高引用次数” ，一名科研人员的 h 指数 是指他（她）至少发表了 h 篇论文，并且 至少 有 h 篇论文被引用次数大于等于 h 。
+     * 如果 h 有多种可能的值，h 指数 是其中最大的那个。
+    */
+
+
+
+    /**
+     * @param {number[]} citations
+     * @return {number}
+     */
+    var hIndex = function(citations) {
+      // citations 中每遍历到一个数，就算一次h指数
+      const sortedCitations = citations.sort((a , b )=> a - b); // 从小到大；
+      // 引用次数>= sortedCitations[0] 的论文有 sortedCitations.length 篇 ，所以它的h指数为 Math.min(sortedCitations.length - i, sortedCitations[i] )
+
+
+      let max = Number.MIN_SAFE_INTEGER;
+
+      for(let i = 0 ;i < sortedCitations.length ; i++){
+        let h = Math.min(sortedCitations[i] , sortedCitations.length - i);
+        max = Math.max(max, h);
+      }
+
+      return max;
+    };
+  </script>
+</body>
+</html>

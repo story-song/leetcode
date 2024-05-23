@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+
+    /**
+     * 给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+     * 你可以假设数组是非空的，并且给定的数组总是存在多数元素
+    */
+    // 方法一：hashMap
+    // 方法二：随机法
+    // 方法三：摩尔投票法--winner战胜法
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+    var majorityElement = function(nums) {
+      // 只有一个数可能出现词频大于 n / 2 的
+      let count = 0;
+      let candidate = null;
+
+      for (let i = 0; i < nums.length; i++) {
+        const num = nums[i];
+        if (count == 0) {
+          candidate = num;
+        }
+        count += (num == candidate) ? 1 : -1;
+      }
+
+      return candidate;
+
+    };
+  </script>
+</body>
+</html>
