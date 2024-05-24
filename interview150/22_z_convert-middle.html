@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @param {number} numRows
+       * @return {string}
+       */
+      var convert = function (s, numRows) {
+        // z字形变换
+
+        let len = s.length;
+
+        if (numRows === 1) {
+          return s;
+        }
+
+        let cols = 0;
+        let rest = numRows - 2;
+
+        while (len >= numRows + rest) {
+          len -= numRows + rest;
+          cols += 1 + rest;
+        }
+
+        // 说明len不够了
+
+        if (len < numRows) {
+          cols += 1;
+        } else {
+          cols += 1;
+          len = len - numRows;
+          cols += len;
+        }
+
+        const grid = new Array(numRows)
+          .fill(0)
+          .map(() => new Array(cols).fill(null));
+
+        let col = 0;
+        let row = 0;
+        let direction = true;
+        for (let i = 0; i < s.length; i++) {
+          grid[row][col] = s[i];
+
+          if (row === 0) {
+            direction = true;
+          } else if (row === numRows - 1) {
+            direction = false;
+          }
+
+          if (direction) {
+            row++;
+          } else {
+            row--;
+            col++;
+          }
+        }
+
+        let res = "";
+
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < cols; j++) {
+            if (grid[i][j]) {
+              res += grid[i][j];
+            }
+          }
+        }
+
+        return res;
+      };
+
+      console.log(convert("PAYPALISHIRING", 4));
+      // console.log(convert("PAYPALISHIRING", 2));
+    </script>
+  </body>
+</html>
