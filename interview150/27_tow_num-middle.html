@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} numbers
+       * @param {number} target
+       * @return {number[]}
+       */
+      var twoSum = function (numbers, target) {
+        // 必须使用常数级别的额外空间复杂度；
+        // numbers是非递减的，双指针
+
+        debugger;
+        let left = 0;
+        let right = numbers.length - 1;
+
+        while (left < right) {
+          let sum = numbers[left] + numbers[right];
+
+          if (sum > target) {
+            right--;
+          } else if (sum < target) {
+            left++;
+          } else {
+            return [left, right];
+          }
+        }
+      };
+
+      console.log(twoSum([2, 7, 11, 15], 9));
+    </script>
+  </body>
+</html>

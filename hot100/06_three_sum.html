@@ -1,142 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    /**
-     * @param {number[]} nums
-     * @return {number[][]}
-     */
-    var threeSum = function(nums) { // 数组长度是 0-3000
-      // 1. 相加等于0
-      // 2. 各不相同
-      const  result = [];
-      // [ 负数 ， 0 ，正数  ]
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @return {number[][]}
+       */
+      var threeSum1 = function (nums) {
+        // 数组长度是 0-3000 // 这个三数之和，不是最优解，分类讨论的方式太麻烦了
+        // 1. 相加等于0
+        // 2. 各不相同
+        const result = [];
+        // [ 负数 ， 0 ，正数  ]
 
-      const zhengshuMap = new Map();
-      const fushuMap = new Map();
-      const zhengshuSet = new Set();
-      const fushuSet = new Set();
+        const zhengshuMap = new Map();
+        const fushuMap = new Map();
+        const zhengshuSet = new Set();
+        const fushuSet = new Set();
 
-      let zeroNum = 0;
-      
-      for(let i = 0 ;i < nums.length; i++){
+        let zeroNum = 0;
 
-        const num = nums[i];
+        for (let i = 0; i < nums.length; i++) {
+          const num = nums[i];
 
-        if(num === 0){
-          zeroNum++;
-        }
-
-        if(num > 0 ){
-          const count = zhengshuMap.get(num);
-          zhengshuMap.set(num , count ? count + 1 : 1);
-          zhengshuSet.add(num)
-        }
-
-        if(num < 0){
-          const count = fushuMap.get(num);
-          fushuMap.set(num , count ? count + 1 : 1);
-          fushuSet.add(num);
-        }
-      }
-
-      if(zeroNum){
-        if(zeroNum > 2){
-          result.push([0,0,0])
-        }
-
-        for(const [shu] of zhengshuMap){
-          if(fushuMap.has(-shu)){
-            result.push([shu , -shu , 0])
-          }
-        }
-      }
-
-      // 先合成负数
-
-      for(const target of fushuSet){
-
-        const exceudeSet = new Set(zhengshuSet);
-        const usedSet = new Set();
-
-        for(const current of zhengshuSet){
-          exceudeSet.delete(current);// 抛出了当前数
-
-          const diff = target + current;
-
-          if(usedSet.has(current)){
-            continue;
+          if (num === 0) {
+            zeroNum++;
           }
 
-          if(diff){
-            if(-diff === current){
-              if(zhengshuMap.get(current) > 1){
-                result.push([current , current , target]);
-                usedSet.add(current);
-                continue;
-              }
-            }else{
-              if(exceudeSet.has(-diff)){
-                result.push([current , -diff , target]);
-                usedSet.add(current);
-                usedSet.add(-diff);
-                continue;
+          if (num > 0) {
+            const count = zhengshuMap.get(num);
+            zhengshuMap.set(num, count ? count + 1 : 1);
+            zhengshuSet.add(num);
+          }
+
+          if (num < 0) {
+            const count = fushuMap.get(num);
+            fushuMap.set(num, count ? count + 1 : 1);
+            fushuSet.add(num);
+          }
+        }
+
+        if (zeroNum) {
+          if (zeroNum > 2) {
+            result.push([0, 0, 0]);
+          }
+
+          for (const [shu] of zhengshuMap) {
+            if (fushuMap.has(-shu)) {
+              result.push([shu, -shu, 0]);
+            }
+          }
+        }
+
+        // 先合成负数
+
+        for (const target of fushuSet) {
+          const exceudeSet = new Set(zhengshuSet);
+          const usedSet = new Set();
+
+          for (const current of zhengshuSet) {
+            exceudeSet.delete(current); // 抛出了当前数
+
+            const diff = target + current;
+
+            if (usedSet.has(current)) {
+              continue;
+            }
+
+            if (diff) {
+              if (-diff === current) {
+                if (zhengshuMap.get(current) > 1) {
+                  result.push([current, current, target]);
+                  usedSet.add(current);
+                  continue;
+                }
+              } else {
+                if (exceudeSet.has(-diff)) {
+                  result.push([current, -diff, target]);
+                  usedSet.add(current);
+                  usedSet.add(-diff);
+                  continue;
+                }
               }
             }
           }
-
         }
 
-      }
+        for (const target of zhengshuSet) {
+          const exceudeSet = new Set(fushuSet);
+          const usedSet = new Set();
 
+          for (const current of fushuSet) {
+            exceudeSet.delete(current); // 抛出了当前数
 
+            const diff = target + current;
 
-      for(const target of zhengshuSet){
+            if (usedSet.has(current)) {
+              continue;
+            }
 
-        const exceudeSet = new Set(fushuSet);
-        const usedSet = new Set();
-
-        for(const current of fushuSet){
-          exceudeSet.delete(current);// 抛出了当前数
-
-          const diff = target + current;
-
-          if(usedSet.has(current)){
-            continue;
-          }
-
-          if(diff){
-            if(-diff === current){
-              if(fushuMap.get(current) > 1){
-                result.push([current , current , target]);
-                usedSet.add(current);
-                continue;
-              }
-            }else{
-              if(exceudeSet.has(-diff)){
-                result.push([current , -diff , target]);
-                usedSet.add(current);
-                usedSet.add(-diff);
-                continue;
+            if (diff) {
+              if (-diff === current) {
+                if (fushuMap.get(current) > 1) {
+                  result.push([current, current, target]);
+                  usedSet.add(current);
+                  continue;
+                }
+              } else {
+                if (exceudeSet.has(-diff)) {
+                  result.push([current, -diff, target]);
+                  usedSet.add(current);
+                  usedSet.add(-diff);
+                  continue;
+                }
               }
             }
           }
-
         }
-      }
 
-      return result;
-    };
+        return result;
+      };
 
+      // console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+      // 输出：[[-1,-1,2],[-1,0,1]]
 
+      // 先来一个O(N**2)的算法
+      /**
+       * @param {number[]} nums
+       * @return {number[][]}
+       */
 
-    console.log(threeSum([-1,0,1,2,-1,-4])); 
-    // 输出：[[-1,-1,2],[-1,0,1]]
-  </script>
-</body>
+      var threeSum2 = function (nums) {
+        // console.log();
+
+        nums.sort((a, b) => a - b);
+        let record = new Map();
+
+        for (let i = 0; i < nums.length; i++) {
+          if (record.has(nums[i])) {
+            record.get(nums[i]).push(i);
+          } else {
+            record.set(nums[i], [i]);
+          }
+        }
+
+        let result = []; // -4 -1 -1 0 1 2
+
+        for (let i = 0; i < nums.length; i++) {
+          if (i > 0 && nums[i] === nums[i - 1]) continue;
+          for (let j = i + 1; j < nums.length; j++) {
+            if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+            // for (let k = j + 1; k < nums.length; k++) {
+            //   if (k > j + 1 && nums[k] === nums[k - 1]) continue;
+            //   const sum = nums[i] + nums[j] + nums[k];
+            //   if (sum === 0) {
+            //     result.push([nums[i], nums[j], nums[k]]);
+            //   }
+            // }
+
+            const target = -nums[i] - nums[j];
+            const exist = record.get(target);
+            if (exist && exist.at(-1) > j) {
+              result.push([nums[i], nums[j], target]);
+            }
+          }
+        }
+
+        return result;
+      };
+
+      /**
+       * @param {number[]} nums
+       * @return {number[][]}
+       */
+      var threeSum = function (nums) {
+        // 方法三：再去掉一层循环
+        nums.sort((a, b) => a - b);
+
+        let result = [];
+
+        for (let i = 0; i < nums.length; i++) {
+          if (nums[i] === nums[i - 1]) continue;
+          let l = i + 1;
+          let r = nums.length - 1;
+
+          let target = -nums[i];
+          while (l < r) {
+            let sum = nums[l] + nums[r];
+            if (sum === target) {
+              result.push([nums[i], nums[l], nums[r]]);
+              l++;
+              r--;
+              // l 要移动到不重复的地方去
+              while (l < r && nums[l] === nums[l - 1]) {
+                l++;
+              }
+
+              while (l < r && nums[r] === nums[r + 1]) {
+                r--;
+              }
+            } else if (sum < target) {
+              l++;
+            } else {
+              r--;
+            }
+          }
+        }
+
+        return result;
+      };
+      // console.log();
+
+      console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+    </script>
+  </body>
 </html>

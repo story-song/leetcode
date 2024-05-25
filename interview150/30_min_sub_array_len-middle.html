@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 给定一个含有 n 个正整数的数组和一个正整数 target 。
+       找出该数组中满足其总和大于等于 target 的长度最小的 连续子数组
+       [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 
+      */
+
+      /**
+       * @param {number} target
+       * @param {number[]} nums
+       * @return {number}
+       */
+      var minSubArrayLen = function (target, nums) {
+        // 长度最小 都是正数 -> 所选择的数要尽可能的大
+
+        let left = 0;
+        let right = 0;
+        let sum = nums[0];
+        let min = Number.MAX_SAFE_INTEGER;
+
+        // debugger;
+
+        while (right < nums.length) {
+          if (sum < target) {
+            right++;
+            if (right === nums.length) {
+              break;
+            }
+            sum += nums[right];
+          } else if (sum >= target) {
+            while (sum >= target) {
+              min = Math.min(min, right - left);
+              sum -= nums[left];
+              left++;
+            }
+          }
+        }
+
+        if (min === Number.MAX_SAFE_INTEGER) {
+          return 0;
+        }
+        return min + 1;
+      };
+
+      console.log(minSubArrayLen(7, [2, 3, 1, 2, 4, 3]));
+
+      console.log(minSubArrayLen(11, [1, 1, 1, 1, 1, 1, 1, 1]));
+    </script>
+  </body>
+</html>
