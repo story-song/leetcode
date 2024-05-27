@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[][]} board
+       * @return {void} Do not return anything, modify board in-place instead.
+       */
+      var gameOfLife = function (board) {
+        //
+
+        let m = board.length;
+        let n = board[0].length;
+
+        function getValue(i, j) {
+          if (i < 0 || i >= m || j < 0 || j >= n) {
+            return null;
+          }
+
+          return board[i][j];
+        }
+
+        function process(i, j, value) {
+          let num_1 = 0;
+          let num_0 = 0;
+
+          // 8个位置
+          let top = getValue(i - 1, j);
+          let bottom = getValue(i + 1, j);
+          let left = getValue(i, j - 1);
+          let right = getValue(i, j + 1);
+          let top_left = getValue(i - 1, j - 1);
+          let top_right = getValue(i - 1, j + 1);
+          let bottom_left = getValue(i + 1, j - 1);
+          let bottom_right = getValue(i + 1, j + 1);
+
+          const arr = [
+            top,
+            bottom,
+            left,
+            right,
+            top_left,
+            top_right,
+            bottom_left,
+            bottom_right,
+          ];
+
+          arr.forEach((num) => {
+            if (num !== null) {
+              if (num === 1) {
+                num_1++;
+              } else {
+                num_0++;
+              }
+            }
+          });
+
+          if (value === 1) {
+            if (num_1 === 2 || num_1 === 3) {
+              return 1;
+            }
+            if (num_1 < 2) {
+              return 0;
+            }
+
+            if (num_1 > 3) {
+              return 0;
+            }
+          }
+
+          if (value === 0) {
+            if (num_1 === 3) {
+              return 1;
+            }
+          }
+
+          return value;
+        }
+
+        const copy = new Array(m).fill(0).map(() => new Array(n).fill(0));
+
+        for (let i = 0; i < board.length; i++) {
+          for (let j = 0; j < board[0].length; j++) {
+            copy[i][j] = process(i, j, board[i][j]);
+          }
+        }
+
+        for (let i = 0; i < copy.length; i++) {
+          for (let j = 0; j < copy[0].length; j++) {
+            board[i][j] = copy[i][j];
+          }
+        }
+
+        return copy;
+      };
+
+      console.log(
+        gameOfLife([
+          [0, 1, 0],
+          [0, 0, 1],
+          [1, 1, 1],
+          [0, 0, 0],
+        ])
+      );
+    </script>
+  </body>
+</html>

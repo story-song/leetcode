@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * @param {number[]} nums
+     * @param {number} k
+     * @return {number[]}
+     */
+    var maxSlidingWindow = function(nums, k) {
+      // 思路一：暴力解法
+
+
+      // 思路二：单调栈
+
+
+      let left = 0;
+      let right = 0;
+
+      const result = [];
+      
+      const stack = [];
+
+      while (right < nums.length) {
+        
+        // 在 left 和 right之间滑动
+        const leave = stack[left - 1]; // 失去的
+        const enter = nums[right]; // 新增的
+
+        
+        left++;
+        right++;
+      }
+
+      return result;
+    };
+
+
+    console.log(maxSlidingWindow([1,3,-1,-3,5,3,6,7] , 3));
+  </script>
+</body>
+</html>

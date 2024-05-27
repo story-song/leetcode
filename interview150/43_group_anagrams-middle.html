@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var groupAnagrams = function (strs) {
+        const map = new Map();
+
+        for (let i = 0; i < strs.length; i++) {
+          const str = strs[i];
+          const fre = new Array(26).fill(0);
+          for (let j = 0; j < str.length; j++) {
+            fre[str[j].charCodeAt(0) - 97]++;
+          }
+          const res = fre.join("-");
+          if (map.has(res)) {
+            map.get(res).push(str);
+          } else {
+            map.set(res, [str]);
+          }
+        }
+
+        const result = [];
+
+        for (let v of map.values()) {
+          result.push(v);
+        }
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

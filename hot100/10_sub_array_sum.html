@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 方法一：太耗时
+      var subarraySum = function (nums, k) {
+        // 求和为k的连续子数组有多少个
+        let count = 0;
+
+        for (let i = 0; i < nums.length; i++) {
+          let sum = nums[i];
+
+          if (sum === k) {
+            count++;
+          }
+
+          for (let j = i + 1; j < nums.length; j++) {
+            const next = nums[j];
+            sum += next;
+            if (sum === k) {
+              count++;
+            }
+          }
+        }
+
+        return count;
+      };
+
+      /**
+       * @param {number[]} nums
+       * @param {number} k
+       * @return {number}
+       */
+
+      // 使用前缀和和 和 hashMap来解决问题
+      var subarraySum2 = function (nums, k) {
+        let count = 0;
+
+        const pre = [];
+
+        for (let i = 0; i < nums.length; i++) {
+          if (i === 0) {
+            pre[i] = nums[i];
+          } else {
+            pre[i] = pre[i - 1] + nums[i];
+          }
+        }
+
+        const map = new Map(); // { pre , count } 前缀和 次数
+        for (let i = 0; i < pre.length; i++) {
+          const need = pre[i] - k; // 在i之前存不存在前缀和为 need的
+          if (need === 0) {
+            //
+            count++;
+          }
+
+          const have = map.get(need);
+
+          if (have) {
+            // 说明存在
+            count += have;
+          }
+
+          if (map.get(pre[i])) {
+            map.set(pre[i], map.get(pre[i]) + 1);
+          } else {
+            map.set(pre[i], 1);
+          }
+        }
+
+        return count;
+      };
+
+      console.log(subarraySum([1, 1, 1], 2));
+
+      // 题解：
+
+      /**
+       * 可以通过倒退得方法，假设数组 [...i....j.....] i到j范围内得和为k，那么必满足 pre[j] - pre[i-1] = k，在整个数组中有多少个子数组满足这个等式
+       * 也就意味着，有多少个数组满足 pre[j] - k = pre[i - 1]，因为必有 j > i - 1
+       * 进而推断出在 j 之前，有多少个前缀和满足 pre[j] - k 得值，存在多少个，就会存在多少个有效得解
+       *
+       * 如果快速得知道在j之前有多少个 前缀和为 pre[j] - k 得值呢？可以通过 一个hashMap来将{ 前缀和: 数量 } 保存起来
+       * 这样就能快速获取在j之前有多少个前缀和为 m 的数量了
+       */
+    </script>
+  </body>
+</html>

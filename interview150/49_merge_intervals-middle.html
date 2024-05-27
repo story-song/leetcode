@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var merge = function (intervals) {
+        //
+
+        let result = [];
+
+        function canMerge(interval1, interval2) {
+          const [s1, e1] = interval1;
+          const [s2, e2] = interval2;
+          if (s1 > e2 || s2 > e1) {
+            return false;
+          }
+          return true;
+        }
+
+        intervals.sort((a, b) => a[0] - b[0]);
+
+        for (let i = 0; i < intervals.length; i++) {
+          const new_inter = intervals[i];
+          if (result.length === 0) {
+            result.push(new_inter);
+          } else {
+            const old_inter = result.at(-1);
+            if (canMerge(new_inter, old_inter)) {
+              const merged = [
+                Math.min(new_inter[0], old_inter[0]),
+                Math.max(new_inter[1], old_inter[1]),
+              ];
+              result.pop();
+              result.push(merged);
+            } else {
+              result.push(new_inter);
+            }
+          }
+        }
+
+        return result;
+
+        // 方法一：位图 -- 复杂度比较高
+
+        // 方法二：
+      };
+    </script>
+  </body>
+</html>

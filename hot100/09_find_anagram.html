@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function isSame(targetMap, subStr) {
+        const map = new Map();
+        for (let i = 0; i < subStr.length; i++) {
+          const char = subStr[i];
+          if (!targetMap.get(char)) {
+            return false;
+          }
+          const exist = map.get(char);
+          map.set(char, exist ? exist + 1 : 1);
+        }
+
+        if (targetMap.size !== map.size) {
+          return false;
+        }
+
+        for (const [key, value] of map) {
+          if (targetMap.get(key) !== value) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+      /**
+       * @param {string} s
+       * @param {string} p
+       * @return {number[]}
+       */
+      var findAnagrams1 = function (s, p) {
+        if (!p || !s) {
+          return [];
+        }
+
+        if (s == p) {
+          return [0];
+        }
+
+        // 找到s中所有p的异位子串
+        const result = [];
+        const targetMap = new Map();
+        for (let i = 0; i < p.length; i++) {
+          const char = p[i];
+          const exist = targetMap.get(char);
+          targetMap.set(char, exist ? exist + 1 : 1);
+        }
+
+        let len = p.length;
+        let last;
+        let lastState = false;
+
+        debugger;
+
+        for (let i = len; i <= s.length; i++) {
+          // 滑动窗口的思想
+
+          let left = i - len;
+          let right = i;
+
+          const subStr = s.slice(left, right);
+
+          if (last) {
+            if (s[right - 1] === last && lastState) {
+              // 这相当于是一个小的优化
+              result.push(left);
+              last = s[left];
+              lastState = true;
+              continue;
+            }
+          }
+
+          if (isSame(targetMap, subStr)) {
+            result.push(left);
+            lastState = true;
+          } else {
+            lastState = false;
+          }
+
+          last = s[left];
+        }
+
+        return result;
+      };
+
+      // "abacbabc"
+      // 'abc'
+
+      /**
+       * @param {string} s
+       * @param {string} p
+       * @return {number[]}
+       */
+      var findAnagrams = function (s, p) {
+        if (!p || !s) {
+          return [];
+        }
+
+        if (s === p) {
+          return [0];
+        }
+
+        if (p.length > s.length) {
+          return [];
+        }
+
+        let result = [];
+
+        let sArr = new Array(26).fill(0);
+        let pArr = new Array(26).fill(0);
+
+        for (let i = 0; i < p.length; i++) {
+          sArr[s.charCodeAt(i) - 97]++;
+          pArr[p.charCodeAt(i) - 97]++;
+        }
+
+        if (sArr.toString() === pArr.toString()) {
+          result.push(0);
+        }
+
+        for (let i = 0; i < s.length - p.length; i++) {
+          sArr[s.charCodeAt(i) - 97]--;
+          sArr[s.charCodeAt(i + p.length) - 97]++;
+          if (sArr.toString() === pArr.toString()) {
+            result.push(i + 1);
+          }
+        }
+
+        return result;
+      };
+      console.log(findAnagrams("abacbabc", "abc"));
+    </script>
+  </body>
+</html>
