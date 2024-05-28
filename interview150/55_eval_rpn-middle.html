@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string[]} tokens
+       * @return {number}
+       */
+      var evalRPN = function (tokens) {
+        let stack = [];
+
+        for (let i = 0; i < tokens.length; i++) {
+          const char = tokens[i];
+          if (char === "*") {
+            let a = stack.pop();
+            let b = stack.pop();
+            stack.push(a * b);
+            continue;
+          }
+
+          if (char === "+") {
+            let a = stack.pop();
+            let b = stack.pop();
+            stack.push(a + b);
+            continue;
+          }
+
+          if (char === "-") {
+            let a = stack.pop();
+            let b = stack.pop();
+            stack.push(b - a);
+            continue;
+          }
+
+          if (char === "/") {
+            let a = stack.pop();
+            let b = stack.pop();
+            let res = b / a;
+            stack.push(res > 0 ? Math.floor(res) : Math.ceil(res));
+            continue;
+          }
+
+          stack.push(Number(char));
+        }
+
+        return stack.at(-1);
+      };
+    </script>
+  </body>
+</html>

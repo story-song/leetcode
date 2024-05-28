@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} path
+       * @return {string}
+       */
+      var simplifyPath = function (path) {
+        let stack = [];
+        const paths = path.split(/\/+/);
+
+        for (let i = 0; i < paths.length; i++) {
+          const p = paths[i];
+          if (p) {
+            if (p === "..") {
+              stack.pop();
+              continue;
+            }
+
+            if (p === ".") {
+              continue;
+            }
+
+            stack.push(p);
+          }
+        }
+
+        return "/" + stack.join("/");
+      };
+    </script>
+  </body>
+</html>

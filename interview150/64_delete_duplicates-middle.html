@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode} head
+       * @return {ListNode}
+       */
+      var deleteDuplicates = function (head) {
+        debugger;
+        let cur = head;
+        let pre = null;
+
+        while (cur) {
+          let next = cur.next;
+          if (next) {
+            let diff = next;
+            let mark = false;
+            while (diff) {
+              if (diff.val === cur.val) {
+                mark = true;
+                diff = diff.next;
+              } else {
+                break;
+              }
+            }
+
+            if (mark) {
+              if (!pre) {
+                cur = diff;
+                head = diff;
+              } else {
+                pre.next = diff;
+                cur = diff;
+              }
+            } else {
+              pre = cur;
+              cur = diff;
+            }
+          } else {
+            cur = next;
+            pre = cur;
+          }
+        }
+
+        return head;
+      };
+    </script>
+  </body>
+</html>

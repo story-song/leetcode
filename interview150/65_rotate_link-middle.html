@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode} head
+       * @param {number} k
+       * @return {ListNode}
+       */
+      var rotateRight = function (head, k) {
+        if (!k || !head || !head.next) return head;
+
+        let size = 0;
+
+        let cur = head;
+
+        while (cur) {
+          size++;
+          cur = cur.next;
+        }
+
+        let times = size - (k % size);
+
+        let pre = head;
+        let last = null;
+
+        while (times) {
+          times--;
+          last = pre;
+          pre = pre.next;
+        }
+
+        if (pre === head || !pre) {
+          return head;
+        }
+
+        if (last) {
+          last.next = null;
+        }
+
+        let head1 = pre;
+        cur = pre;
+        while (cur && cur.next) {
+          cur = cur.next;
+        }
+
+        cur.next = head;
+
+        return head1;
+      };
+    </script>
+  </body>
+</html>
