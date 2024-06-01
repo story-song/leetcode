@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} ratings
+       * @return {number}
+       */
+      var candy = function (ratings) {
+        const atLeast = new Array(ratings.length).fill(1); // 这是至少的
+
+        let min = 0;
+
+        for (let i = 1; i < ratings.length; i++) {
+          if (ratings[i] < ratings[min]) {
+            min = i;
+          }
+        }
+
+        // 从min的位置开始往左右两边进行感染，因为min的位置是一个铁1
+      };
+    </script>
+  </body>
+</html>

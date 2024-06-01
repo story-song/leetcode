@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} prices
+       * @return {number}
+       */
+      var maxProfit = function (prices) {
+        let maxArr = new Array(prices.length);
+
+        let max = prices.at(-1);
+
+        debugger;
+
+        for (let i = prices.length - 1; i >= 0; i--) {
+          max = maxArr[i] = Math.max(max, prices[i]);
+        }
+
+        let profit = 0;
+        for (let i = 0; i < prices.length; i++) {
+          profit = Math.max(profit, maxArr[i] - prices[i]);
+        }
+
+        return profit;
+      };
+    </script>
+  </body>
+</html>

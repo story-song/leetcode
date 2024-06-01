@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @return {number}
+       */
+      var jump = function (nums) {
+        let cur = nums.length - 1;
+        let steps = 0;
+
+        while (cur) {
+          for (let i = 0; i < cur; i++) {
+            // 找出一个最远的可以跳到cur的位置
+            if (i + nums[i] >= cur) {
+              cur = i;
+              steps++;
+              break;
+            }
+          }
+        }
+
+        return steps;
+      };
+    </script>
+  </body>
+</html>

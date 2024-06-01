@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @return {boolean}
+       */
+      var canJump = function (nums) {
+        // 这是采用动态规划的方法 ， 复杂度 O(n**2)
+        // let res = false;
+        const dp = new Array(nums.length).fill(null); // dp[i] 的含义代表从第i个节点出发能否到达最后一个点
+        dp[nums.length - 1] = true;
+        for (let i = nums.length - 2; i >= 0; i--) {
+          let res = false;
+          let limit = nums.length - i - 1;
+          let num = nums[i] > limit ? limit : nums[i]; // num = 0
+          while (num) {
+            if (dp[i + num]) {
+              res = true;
+              break;
+            }
+            num--;
+          }
+
+          dp[i] = res;
+        }
+
+        return dp[0];
+      };
+
+      /**
+       * @param {number[]} nums
+       * @return {boolean}
+       */
+      var canJump = function (nums) {
+        // 方法二：O(n)
+        let reach = 0;
+
+        for (let i = 0; i < nums.length; i++) {
+          // reach 代表着前面能够到达的最远的位置，如果当前的节点在 reach 之前，说明当前节点不可达
+          // 如果当前节点在 reach 之后，说明当前节点可达
+          if (i > reach) {
+            return false;
+          }
+
+          reach = Math.max(reach, i + nums[i]);
+        }
+
+        return true;
+      };
+    </script>
+  </body>
+</html>

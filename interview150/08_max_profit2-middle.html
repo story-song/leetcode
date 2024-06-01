@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} prices
+       * @return {number}
+       */
+      var maxProfit = function (prices) {
+        // 方法一：暴力解法
+        // 1持有股票 0 未持有股票
+
+        let max = 0;
+
+        function process(cur, profit, state) {
+          if (cur === prices.length) {
+            max = Math.max(max, profit);
+            return;
+          }
+
+          if (state === 0) {
+            // 未持有股票 买/不作为
+            process(cur + 1, profit - prices[cur], 1);
+            process(cur + 1, profit, 0);
+          } else {
+            // 持有股票，可以卖出，或者不作为
+            process(cur + 1, profit + prices[cur], 0);
+            process(cur + 1, profit, 1);
+          }
+
+          // max = Math.max(max, profit);
+        }
+
+        process(0, 0, 0);
+
+        return max;
+      };
+
+      console.log(maxProfit([7, 1, 5, 3, 6, 4]));
+    </script>
+  </body>
+</html>

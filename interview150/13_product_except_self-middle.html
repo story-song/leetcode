@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // product except self
+      var productExceptSelf = function (nums) {
+        if (nums.length <= 1) {
+          return nums;
+        }
+
+        // 返回一个数组，组成是除了当前的其他所有元素的乘积
+        const first = nums[0];
+        const last = nums[nums.length - 1];
+        const len = nums.length;
+        const pre_mul = new Array(len);
+        const last_mul = new Array(len);
+
+        for (let i = 0; i < nums.length; i++) {
+          const before = nums[i];
+          const after = nums[len - i - 1];
+          pre_mul[i] = i === 0 ? before : pre_mul[i - 1] * before;
+          last_mul[len - i - 1] = i === 0 ? after : last_mul[len - i] * after;
+        }
+
+        const result = new Array(len);
+        for (let i = 0; i < len; i++) {
+          if (i === 0) {
+            result[i] = last_mul[i + 1];
+            continue;
+          }
+
+          if (i === len - 1) {
+            result[i] = pre_mul[i - 1];
+            continue;
+          }
+
+          result[i] = pre_mul[i - 1] * last_mul[i + 1];
+        }
+
+        return result;
+      };
+    </script>
+  </body>
+</html>
