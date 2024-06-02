@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode} head
+       * @param {number} n
+       * @return {ListNode}
+       */
+      var removeNthFromEnd = function (head, n) {
+        let size = 0;
+
+        let cur = head;
+        while (cur) {
+          size++;
+          cur = cur.next;
+        }
+
+        let nth = size - n; // 5 - 2 = 3;
+        cur = head;
+        let pre = null;
+        let next = head.next;
+
+        debugger;
+
+        while (nth) {
+          pre = cur;
+          cur = cur.next;
+          next = cur ? cur.next : null;
+          nth--;
+        }
+
+        if (pre) {
+          pre.next = next;
+          return head;
+        } else {
+          return next;
+        }
+      };
+    </script>
+  </body>
+</html>

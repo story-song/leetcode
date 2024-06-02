@@ -1,47 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    /**
-     * @param {number[]} nums
-     * @param {number} k
-     * @return {number[]}
-     */
-    var maxSlidingWindow = function(nums, k) {
-      // 思路一：暴力解法
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @param {number} k
+       * @return {number[]}
+       */
+      var maxSlidingWindow = function (nums, k) {
+        // 返回滑动窗口内最大值的数组
+        // 方法一：暴力解法：当我滑到某个位置的时候，我就遍历一遍当前窗口的值即可
 
+        // let left = 0;
+        // let right = k - 1;
 
-      // 思路二：单调栈
+        // const result = [];
 
+        // while (right < nums.length) {
+        //   let max = nums[left];
 
-      let left = 0;
-      let right = 0;
+        //   for (let i = left; i <= right; i++) {
+        //     max = Math.max(max, nums[i]);
+        //   }
 
-      const result = [];
-      
-      const stack = [];
+        //   result.push(max);
+        //   left++;
+        //   right++;
+        // }
 
-      while (right < nums.length) {
-        
-        // 在 left 和 right之间滑动
-        const leave = stack[left - 1]; // 失去的
-        const enter = nums[right]; // 新增的
+        const result = [];
 
-        
-        left++;
-        right++;
-      }
+        let stack = [];
 
-      return result;
-    };
+        let right = 0;
+        let left = right - k + 1;
 
+        function pushStack(index) {
+          while (stack.length && nums[stack[stack.length - 1]] < nums[index]) {
+            stack.pop();
+          }
+          stack.push(index);
+        }
 
-    console.log(maxSlidingWindow([1,3,-1,-3,5,3,6,7] , 3));
-  </script>
-</body>
+        while (right < nums.length) {
+          // 在这一轮中 left 要消失一个 left - 1;
+
+          pushStack(right);
+
+          if (left - 1 >= -1) {
+            let cur = stack[0];
+
+            while (cur < left) {
+              stack.shift();
+              cur = stack[0];
+            }
+
+            result.push(nums[stack[0]]);
+          }
+
+          left++;
+          right++;
+        }
+
+        return result;
+      };
+
+      console.log(maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3));
+    </script>
+  </body>
 </html>

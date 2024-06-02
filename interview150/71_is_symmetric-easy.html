@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {TreeNode} root
+       * @return {boolean}
+       */
+      var isSymmetric = function (root) {
+        let result = [];
+
+        function trverse(node, has) {
+          if (!node) {
+            if (has) {
+              result.push("n");
+            }
+            return;
+          }
+
+          let tag = false;
+          if (node.left || node.right) {
+            tag = true;
+          }
+
+          trverse(node.left, tag);
+
+          result.push(node.val);
+
+          trverse(node.right, tag);
+        }
+
+        trverse(root);
+
+        let l = 0;
+        let r = result.length - 1;
+
+        while (l < r) {
+          if (result[l] !== result[r]) {
+            return false;
+          }
+
+          l++;
+          r--;
+        }
+
+        return true;
+      };
+
+      function Node(val = null, left = null, right = null) {
+        this.left = left;
+        this.right = right;
+        this.val = val;
+      }
+
+      const node1 = new Node(1);
+      const node2 = new Node(2);
+      const node3 = new Node(2);
+      const node4 = new Node(2);
+      const node5 = new Node(2);
+
+      node1.left = node2;
+      node1.right = node3;
+      node2.left = node4;
+      node3.left = node5;
+
+      console.log(isSymmetric(node1));
+    </script>
+  </body>
+</html>
