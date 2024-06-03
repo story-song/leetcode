@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+      /**
+       * @param {TreeNode} root
+       * @param {number} targetSum
+       * @return {boolean}
+       */
+      var hasPathSum = function (root, targetSum) {
+        // 从root到子节点的路径和等于targetSum
+        // root
+        if (!root) {
+          return false;
+        }
+
+        let res = false;
+
+        function process(node, sum) {
+          if (!node) {
+            return;
+          }
+
+          process(node.left, sum + node.val);
+          process(node.right, sum + node.val);
+
+          if (!node.left && !node.right) {
+            if (sum + node.val === targetSum) {
+              res = true;
+            }
+          }
+        }
+
+        process(root, 0);
+
+        return res;
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function TreeNode(val, left, right) {
+        this.val = val === undefined ? 0 : val;
+        this.left = left === undefined ? null : left;
+        this.right = right === undefined ? null : right;
+      }
+
+      var buildTree = function (inorder, postorder) {
+        if (!inorder.length || !postorder.length) return null;
+        const head = postorder.at(-1);
+        const index = inorder.indexOf(head);
+        const node = new TreeNode(head);
+        node.left = buildTree(
+          inorder.slice(0, index),
+          postorder.slice(0, index)
+        );
+        node.right = buildTree(
+          inorder.slice(index + 1),
+          postorder.slice(index, -1)
+        );
+        return node;
+      };
+    </script>
+  </body>
+</html>

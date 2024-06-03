@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * // Definition for a Node.
+       * function Node(val, left, right, next) {
+       *    this.val = val === undefined ? null : val;
+       *    this.left = left === undefined ? null : left;
+       *    this.right = right === undefined ? null : right;
+       *    this.next = next === undefined ? null : next;
+       * };
+       */
+
+      /**
+       * @param {Node} root
+       * @return {Node}
+       */
+      var connect = function (root) {
+        if (!root) return root;
+        // 宽度优先遍历即可
+        let queue = [{ level: 0, node: root }];
+        let list = [];
+        while (queue.length) {
+          const pop = queue.shift();
+          const { level, node } = pop;
+          list.push(pop);
+          if (node.left) {
+            queue.push({ level: level + 1, node: node.left });
+          }
+          if (node.right) {
+            queue.push({ level: level + 1, node: node.right });
+          }
+        }
+
+        for (let i = 0; i < list.length - 1; i++) {
+          let cur = list[i];
+          let next = list[i + 1];
+          if (cur.level === next.level) {
+            cur.node.next = next.node;
+          }
+        }
+
+        return root;
+      };
+    </script>
+  </body>
+</html>

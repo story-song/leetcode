@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=\, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var flatten = function (root) {
+        // 给我一个棵二叉树节点，将其展开为一个链表
+        if (!root) {
+          return;
+        }
+
+        function process(node) {
+          // 给我一个节点，我可以将它的左右子树展开为链表，并返回右子树的头节点
+          if (!node) {
+            return null;
+          }
+
+          let left = process(node.left);
+
+          let right = process(node.right);
+
+          node.left = null;
+
+          if (!left && !right) {
+            return {
+              first: node,
+              last: node,
+            };
+          }
+
+          if (left && right) {
+            node.right = left.first;
+            // left的最后一个节点等于right;
+            left.last.right = right.first;
+            return {
+              first: node,
+              last: right.last,
+            };
+          }
+
+          if (left) {
+            // 有left没有right
+            node.right = left.first;
+            return {
+              first: node,
+              last: left.last,
+            };
+          }
+
+          if (right) {
+            node.right = right.first;
+            return {
+              first: node,
+              last: right.last,
+            };
+          }
+
+          return {
+            first: node,
+            last: node,
+          };
+        }
+
+        process(root);
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+      /**
+       * @param {number[]} preorder
+       * @param {number[]} inorder
+       * @return {TreeNode}
+       */
+      function TreeNode(val, left, right) {
+        this.val = val === undefined ? 0 : val;
+        this.left = left === undefined ? null : left;
+        this.right = right === undefined ? null : right;
+      }
+
+      var buildTree = function (preorder, inorder) {
+        // 前序遍历：根左右；中序遍历：左根右
+        // 根据前序遍历和中序遍历，构建二叉树
+        if (!preorder.length || !inorder.length) return null;
+
+        const root = new TreeNode(preorder[0]);
+
+        const index = inorder.indexOf(root.val); // 当前节点在中序遍历中的索引
+
+        root.left = buildTree(
+          preorder.slice(1, index + 1),
+          inorder.slice(0, index)
+        );
+
+        root.right = buildTree(
+          preorder.slice(index + 1),
+          inorder.slice(index + 1)
+        );
+
+        return root;
+      };
+    </script>
+  </body>
+</html>
