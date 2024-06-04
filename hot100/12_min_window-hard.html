@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var minWindow = function (s, t) {
+        if (t.length > s.length) {
+          return "";
+        }
+
+        // 滑动窗口
+
+        const winMap = new Array(128).fill(0);
+        const tMap = new Array(128).fill(0);
+
+        // 统计 t这个字符串的词频
+        for (let i = 0; i < t.length; i++) {
+          const char = t[i];
+          tMap[char.charCodeAt()]++;
+        }
+
+        let distance = 0;
+
+        let left = 0;
+        let right = 0;
+        let min = Number.MAX_SAFE_INTEGER;
+        let res = "";
+
+        while (right < s.length) {
+          // 上一次有可能是扩展了，有可能是新增了
+          const new_one = s[right];
+
+          if (tMap[new_one.charCodeAt(0)] === 0) {
+            // 如果tMap中没有这个字符，说明这个字符不需要考虑，直接继续
+            right++;
+            continue;
+          }
+
+          // 如果窗口内这个字符的的词频 小于 tMap这个字符的词频，说明这个字符需要考虑
+          if (winMap[new_one.charCodeAt(0)] < tMap[new_one.charCodeAt(0)]) {
+            distance++; // 他们的距离会变的更近
+          }
+
+          winMap[new_one.charCodeAt(0)]++; // 窗口内对应的词频++
+          right++;
+
+          while (distance === t.length) {
+            // 当distance和t保持一致时，说明win窗口内包含了t的所有字符
+            if (right - left < min) {
+              min = right - left;
+              res = s.slice(left, right);
+            }
+
+            // 往左移动
+
+            if (tMap[s[left].charCodeAt(0)] === 0) {
+              left++;
+              continue;
+            }
+
+            if (winMap[s[left].charCodeAt(0)] === tMap[s[left].charCodeAt(0)]) {
+              // 如果等于，那么再移动一个字符就会不匹配了
+              // 往左移动
+              distance--;
+            }
+
+            winMap[s[left].charCodeAt(0)]--;
+            left++;
+          }
+        }
+
+        if (min === Number.MAX_SAFE_INTEGER) {
+          return "";
+        }
+
+        return res;
+      };
+    </script>
+  </body>
+</html>

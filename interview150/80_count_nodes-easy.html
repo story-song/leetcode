@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var countNodes = function (root) {
+        let count = 0;
+        function process(node) {
+          if (!node) {
+            return;
+          }
+          count++;
+          process(node.left);
+          process(node.right);
+        }
+        process(root);
+        return count;
+      };
+    </script>
+  </body>
+</html>

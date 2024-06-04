@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val) {
+       *     this.val = val;
+       *     this.left = this.right = null;
+       * }
+       */
+      /**
+       * @param {TreeNode} root
+       * @param {TreeNode} p
+       * @param {TreeNode} q
+       * @return {TreeNode}
+       */
+      var lowestCommonAncestor = function (root, p, q) {
+        // root是根节点  p 其中一个节点 q 另外一个节点，他们的最近的公共的祖先节点
+
+        // 通过一个map和一个set就可以做到
+
+        if (!root) return root;
+
+        const parentMap = new Map();
+
+        const parentSet = new Set();
+
+        parentMap.set(root, null);
+
+        function process(node) {
+          if (!node) return;
+          if (node.left) {
+            parentMap.set(node.left, node);
+            process(node.left);
+          }
+          if (node.right) {
+            parentMap.set(node.right, node);
+            process(node.right);
+          }
+        }
+
+        process(root);
+
+        let one = p;
+
+        let other = q;
+
+        while (one) {
+          parentSet.add(one);
+
+          one = parentMap.get(one);
+        }
+
+        while (other) {
+          if (parentSet.has(other)) {
+            return other;
+          }
+          other = parentMap.get(other);
+        }
+
+        return root;
+      };
+    </script>
+  </body>
+</html>

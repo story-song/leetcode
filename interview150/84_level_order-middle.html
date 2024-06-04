@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var levelOrder = function (root) {
+        // 队列
+        if (!root) return [];
+
+        const queue = [{ node: root, level: 0 }];
+
+        const result = [[]]; // 数组的index就代表层级
+
+        while (queue.length) {
+          const { node, level } = queue.shift();
+
+          if (result[level]) {
+            result[level].push(node.val);
+          } else {
+            result[level] = [node.val];
+          }
+
+          result.push(); // 不仅仅push val 还有层级
+
+          if (node.left) {
+            queue.push({ node: node.left, level: level + 1 });
+          }
+
+          if (node.right) {
+            queue.push({ node: node.right, level: level + 1 });
+          }
+        }
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

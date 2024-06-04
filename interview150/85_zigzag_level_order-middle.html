@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+      /**
+       * @param {TreeNode} root
+       * @return {number[][]}
+       */
+      var zigzagLevelOrder = function (root) {
+        if (!root) return [];
+
+        let queue = [{ level: 0, node: root }];
+        let levelNodes = [];
+
+        while (queue.length) {
+          // 偶数级正着放，奇数级反着放
+          const { level, node } = queue.shift();
+
+          if (levelNodes[level]) {
+            if (level % 2 === 0) {
+              levelNodes[level].push(node.val);
+            } else {
+              levelNodes[level].unshift(node.val);
+            }
+          } else {
+            levelNodes[level] = [node.val];
+          }
+
+          if (node.left) {
+            queue.push({ level: level + 1, node: node.left });
+          }
+
+          if (node.right) {
+            queue.push({ level: level + 1, node: node.right });
+          }
+        }
+
+        return levelNodes;
+      };
+    </script>
+  </body>
+</html>

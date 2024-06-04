@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var isValidBST = function (root) {
+        // 验证是否是搜索二叉树
+
+        // 中序遍历后是否递增就好了
+
+        const result = [];
+
+        function process(node) {
+          if (!node) {
+            return;
+          }
+
+          process(node.left);
+          result.push(node.val);
+          process(node.right);
+        }
+
+        process(root);
+
+        for (let i = 1; i < result.length; i++) {
+          const pre = result[i - 1];
+          const cur = result[i];
+
+          if (cur <= pre) {
+            return false;
+          }
+        }
+
+        return true;
+      };
+    </script>
+  </body>
+</html>

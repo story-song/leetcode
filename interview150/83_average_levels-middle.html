@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for a binary tree node.
+       * function TreeNode(val, left, right) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.left = (left===undefined ? null : left)
+       *     this.right = (right===undefined ? null : right)
+       * }
+       */
+      /**
+       * @param {TreeNode} root
+       * @return {number[]}
+       */
+      var averageOfLevels = function (root) {
+        if (!root) return [];
+
+        let queue = [{ level: 0, node: root }];
+        let levelNodes = [];
+
+        while (queue.length) {
+          const { level, node } = queue.shift();
+
+          if (levelNodes[level]) {
+            const { len, sum } = levelNodes[level];
+            levelNodes[level] = { len: len + 1, sum: sum + node.val };
+          } else {
+            levelNodes[level] = { len: 1, sum: node.val };
+          }
+
+          if (node.left) {
+            queue.push({ level: level + 1, node: node.left });
+          }
+
+          if (node.right) {
+            queue.push({ level: level + 1, node: node.right });
+          }
+        }
+
+        let result = [];
+        for (let i = 0; i < levelNodes.length; i++) {
+          const { len, sum } = levelNodes[i];
+          result.push(sum / len);
+        }
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

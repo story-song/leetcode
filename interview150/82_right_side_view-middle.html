@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var rightSideView = function (root) {
+        // 返回从右侧能够看到的所有节点
+        if (!root) return [];
+        // 实际上就是层序遍历后的一个东西
+
+        const queue = [{ node: root, level: 0 }];
+
+        const res = [];
+
+        while (queue.length) {
+          const { node, level } = queue.shift();
+
+          if (!res[level]) {
+            res[level] = [node.val];
+          } else {
+            res[level].push(node.val);
+          }
+
+          if (node.left) {
+            queue.push({ node: node.left, level: level + 1 });
+          }
+
+          if (node.right) {
+            queue.push({ node: node.right, level: level + 1 });
+          }
+        }
+
+        const result = [];
+
+        for (let i = 0; i < res.length; i++) {
+          const row = res[i];
+          result.push(row[row.length - 1]);
+        }
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {character[][]} board
+       * @return {void} Do not return anything, modify board in-place instead.
+       */
+      var solve = function (board) {
+        // 解决问题
+        let m = board.length;
+        let n = board[0].length;
+
+        //先将边界或者与边界相连的感染成其他的字符
+
+        function process(i, j, form, to) {
+          if (i < 0 || j < 0 || i >= m || j >= n) {
+            return;
+          }
+
+          if (board[i][j] === form) {
+            board[i][j] = to;
+            process(i - 1, j, form, to);
+            process(i + 1, j, form, to);
+            process(i, j + 1, form, to);
+            process(i, j - 1, form, to);
+          }
+        }
+
+        for (let i = 0; i < m; i++) {
+          for (let j = 0; j < n; j++) {
+            if (i === 0 || j === 0 || i === m - 1 || j === n - 1) {
+              if (board[i][j] === "O") {
+                process(i, j, "O", "S");
+              }
+            } else {
+            }
+          }
+        }
+
+        for (let i = 1; i < m - 1; i++) {
+          for (let j = 1; j < n - 1; j++) {
+            if (board[i][j] === "O") {
+              board[i][j] = "X";
+            }
+          }
+        }
+
+        for (let i = 0; i < m; i++) {
+          for (let j = 0; j < n; j++) {
+            if (i === 0 || j === 0 || i === m - 1 || j === n - 1) {
+              if (board[i][j] === "S") {
+                process(i, j, "S", "O");
+              }
+            }
+          }
+        }
+
+        return board;
+      };
+    </script>
+  </body>
+</html>

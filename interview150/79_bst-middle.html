@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function trverse(node, arr) {
+        if (!node) return;
+        trverse(node.left, arr);
+        arr.push(node);
+        trverse(node.right, arr);
+      }
+
+      var BSTIterator = function (root) {
+        debugger;
+        // 什么是二叉搜索树， 对于任何一颗子树而言，左边元素比自己小，右边元素比自己大；
+        let nodes = []; // 中序遍历
+        trverse(root, nodes);
+        this.nodes = nodes;
+        this.cur = -1;
+      };
+
+      /**
+       * @return {number}
+       */
+      BSTIterator.prototype.next = function () {
+        this.cur++;
+        return this.nodes[this.cur].val;
+      };
+
+      /**
+       * @return {boolean}
+       */
+      BSTIterator.prototype.hasNext = function () {
+        return this.cur < this.nodes.length - 1;
+      };
+
+      function TreeNode(val, left, right) {
+        this.val = val === undefined ? 0 : val;
+        this.left = left === undefined ? null : left;
+        this.right = right === undefined ? null : right;
+      }
+
+      const node1 = new TreeNode(1);
+      const node2 = new TreeNode(2);
+      const node3 = new TreeNode(3);
+      const node4 = new TreeNode(4);
+      const node5 = new TreeNode(5);
+      const node6 = new TreeNode(6);
+
+      node1.left = node2;
+      node1.right = node3;
+      node2.left = node4;
+      node2.right = node5;
+      node3.left = node6;
+
+      const bst = new BSTIterator(node1);
+    </script>
+  </body>
+</html>
