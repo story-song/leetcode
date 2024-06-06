@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @param {string} t
+       * @return {boolean}
+       */
+      var isSubsequence = function (s, t) {
+        // 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+        if (s.length > t.length) {
+          return false;
+        }
+
+        // t删除某些字符之后，是否可以构建成为s;
+
+        let ps = 0;
+        let pt = 0;
+
+        while (ps < s.length && pt < t.length) {
+          if (s[ps] === t[pt]) {
+            ps++;
+            pt++;
+          } else {
+            pt++;
+          }
+        }
+
+        return ps === s.length;
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function transform(num, n) {
+        let r = Math.floor((num - 1) / n),
+          c = (num - 1) % n;
+        if (r % 2 === 1) {
+          c = n - 1 - c;
+        }
+        return [n - 1 - r, c];
+      }
+
+      /**
+       * @param {number[][]} board
+       * @return {number}
+       */
+      var snakesAndLadders = function (board) {
+        //
+
+        let n = board.length;
+
+        // console.log(transform(35, n));
+
+        let vis = new Set();
+
+        let queue = [{ node: 1, step: 0 }];
+
+        while (queue.length) {
+          let { node, step } = queue.shift();
+
+          if (node === n * n) {
+            return step;
+          }
+
+          for (let i = 1; i <= 6; i++) {
+            if (node + i > n * n) {
+              break;
+            }
+
+            let [row, col] = transform(node + i, n);
+            let next = board[row][col] === -1 ? node + i : board[row][col];
+            if (!vis.has(next)) {
+              vis.add(next);
+              queue.push({ node: next, step: step + 1 });
+            }
+          }
+        }
+
+        return -1;
+      };
+
+      console.log(
+        snakesAndLadders([
+          [-1, -1, -1, -1, -1, -1],
+          [-1, -1, -1, -1, -1, -1],
+          [-1, -1, -1, -1, -1, -1],
+          [-1, 35, -1, -1, 13, -1],
+          [-1, -1, -1, -1, -1, -1],
+          [-1, 15, -1, -1, -1, -1],
+        ])
+      );
+    </script>
+  </body>
+</html>

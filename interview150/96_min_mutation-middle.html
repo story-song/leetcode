@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} startGene
+       * @param {string} endGene
+       * @param {string[]} bank
+       * @return {number}
+       */
+      var minMutation = function (startGene, endGene, bank) {
+        // 从 start -> end 是否可能；
+        let set = new Set(bank);
+
+        if (!set.has(endGene)) {
+          return -1;
+        }
+
+        let queue = [{ gene: startGene, step: 0 }];
+        let visited = new Set();
+
+        let min = Number.MAX_SAFE_INTEGER;
+        let map = {
+          A: ["T", "C", "G"],
+          T: ["A", "C", "G"],
+          C: ["A", "T", "G"],
+          G: ["A", "T", "C"],
+        };
+
+        while (queue.length) {
+          let { gene, step } = queue.shift();
+          if (gene === endGene) {
+            min = Math.min(min, step);
+            continue;
+          }
+
+          for (let i = 0; i < gene.length; i++) {
+            // 每一个字符都有可能发生变化
+            let cur = gene[i];
+            let changedTo = map[cur];
+            // cur -> 另外三种
+            for (let t of changedTo) {
+              // 目标是把i换成t
+              let newGene = gene.slice(0, i) + t + gene.slice(i + 1);
+              if (set.has(newGene) && !visited.has(newGene)) {
+                visited.add(newGene);
+                queue.push({ gene: newGene, step: step + 1 });
+              }
+            }
+          }
+        }
+
+        return min === Number.MAX_SAFE_INTEGER ? -1 : min;
+      };
+
+      console.log(minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]));
+    </script>
+  </body>
+</html>

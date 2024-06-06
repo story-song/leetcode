@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} a
+       * @param {string} b
+       * @return {string}
+       */
+      var addBinary = function (a, b) {
+        let long = a.length > b.length ? a : b;
+        let short = long === a ? b : a;
+
+        let result = "";
+        let advance = false;
+        let long_len = long.length - 1;
+        let short_len = short.length - 1;
+
+        for (let i = 0; i < long.length; i++) {
+          let one = long[long_len - i] - 0;
+          let two = short[short_len - i] ? short[short_len - i] - 0 : 0;
+
+          let before = advance ? 1 : 0;
+
+          let res = one + two + before;
+
+          if (res === 3) {
+            result = "1" + result;
+            advance = true;
+          } else if (res === 2) {
+            result = "0" + result;
+            advance = true;
+          } else if (res === 1) {
+            result = "1" + result;
+            advance = false;
+          } else {
+            result = "0" + result;
+            advance = false;
+          }
+        }
+
+        if (advance) {
+          result = "1" + result;
+        }
+
+        return result;
+      };
+
+      console.log(addBinary("1010", "1011"));
+    </script>
+  </body>
+</html>

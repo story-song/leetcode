@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @return {boolean}
+       */
+      var isPalindrome = function (s) {
+        let l = 0;
+        let r = s.length - 1;
+
+        debugger;
+
+        while (l < r) {
+          let left = s[l];
+          let right = s[r];
+          let reg = /[a-zA-z0-9]/;
+          if (!reg.test(left)) {
+            l++;
+            continue;
+          }
+
+          if (!reg.test(right)) {
+            r--;
+            continue;
+          }
+
+          if (left.toLocaleLowerCase() !== right.toLocaleLowerCase()) {
+            return false;
+          }
+
+          l++;
+          r--;
+        }
+
+        return true;
+      };
+
+      console.log(isPalindrome("ab_a"));
+    </script>
+  </body>
+</html>
