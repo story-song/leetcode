@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var spiralOrder = function (matrix) {
+        const set = new Set();
+        const result = [];
+        let m = matrix.length,
+          n = matrix[0].length;
+        let nums = m * n;
+        let direction = 0; // 0 右 1 下 2 左 3 上
+
+        const add = (i, j) => {
+          nums--;
+          result.push(matrix[i][j]);
+          set.add(`${i}-${j}`);
+        };
+
+        const right = (row, col) => {
+          // 横 纵
+          for (let j = col; j < n; j++) {
+            if (!nums) return;
+
+            if (set.has(`${row}-${j}`)) {
+              down(row + 1, j - 1);
+              return;
+            }
+
+            if (j === n - 1) {
+              add(row, j);
+              down(row + 1, j);
+              return;
+            }
+
+            add(row, j);
+          }
+        };
+
+        const down = (row, col) => {
+          // 横 纵
+          for (let i = row; i < m; i++) {
+            if (!nums) return;
+
+            if (set.has(`${i}-${col}`)) {
+              left(i - 1, col - 1);
+              return;
+            }
+            if (i === m - 1) {
+              add(i, col);
+              left(i, col - 1);
+              return;
+            }
+            add(i, col);
+          }
+        };
+
+        const left = (row, col) => {
+          // 横 纵
+          for (let j = col; j >= 0; j--) {
+            if (!nums) return;
+
+            if (set.has(`${row}-${j}`)) {
+              up(row - 1, j + 1);
+              return;
+            }
+
+            if (j === 0) {
+              add(row, j);
+              up(row - 1, j);
+              return;
+            }
+            add(row, j);
+          }
+        };
+
+        const up = (row, col) => {
+          // debugger;
+          // 横 纵
+          for (let i = row; i >= 0; i--) {
+            if (!nums) return;
+
+            if (set.has(`${i}-${col}`)) {
+              right(i + 1, col + 1);
+              return;
+            }
+
+            if (i === 0) {
+              add(i, col);
+              right(i, col + 1);
+              return;
+            }
+
+            add(i, col);
+          }
+        };
+
+        right(0, 0);
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} pattern
+       * @param {string} s
+       * @return {boolean}
+       */
+      var wordPattern = function (pattern, s) {
+        //
+        let arr = s.split(" ");
+
+        let charToWordMap = new Map();
+        let wordToCharMap = new Map();
+
+        if (pattern.length !== arr.length) {
+          return false;
+        }
+
+        debugger;
+        for (let i = 0; i < pattern.length; i++) {
+          let char = pattern[i];
+          let word = arr[i];
+
+          if (charToWordMap.has(char)) {
+            if (charToWordMap.get(char) !== word) {
+              return false;
+            }
+          } else if (wordToCharMap.has(word)) {
+            if (wordToCharMap.get(word) !== char) {
+              return false;
+            }
+          } else {
+            charToWordMap.set(char, word);
+            wordToCharMap.set(word, char);
+          }
+        }
+
+        return true;
+      };
+
+      console.log(wordPattern("abc", "dog cat dog"));
+    </script>
+  </body>
+</html>

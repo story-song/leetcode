@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var threeSum = function (nums) {
+        // 暴力解法
+        nums.sort((a, b) => a - b);
+        // 三树之和要等于0；
+        let result = [];
+        let map = new Map();
+        for (let i = 0; i < nums.length; i++) {
+          if (map.has(nums[i])) {
+            map.get(nums[i]).push(i);
+          } else {
+            map.set(nums[i], [i]);
+          }
+        }
+
+        for (let i = 0; i < nums.length; i++) {
+          if (i > 0 && nums[i] === nums[i - 1]) {
+            continue;
+          }
+          for (let j = i + 1; j < nums.length; j++) {
+            if (j > i + 1 && nums[j] === nums[j - 1]) {
+              continue;
+            }
+
+            let target = 0 - nums[i] - nums[j];
+
+            if (map.has(target)) {
+              let indexArr = map.get(target);
+              for (let k = 0; k < indexArr.length; k++) {
+                if (indexArr[k] > j) {
+                  result.push([nums[i], nums[j], nums[indexArr[k]]]);
+                  break;
+                }
+              }
+            }
+            // 在j 之后是否存在一个数 等于 target;
+            // for (let k = j + 1; k < nums.length; k++) {
+            //   if (k > j + 1 && nums[k] === nums[k - 1]) {
+            //     continue;
+            //   }
+            //   if (nums[i] + nums[j] + nums[k] === 0) {
+            //     // console.log(nums[i], nums[j], nums[k]);
+            //     result.push([nums[i], nums[j], nums[k]]);
+            //   }
+            // }
+          }
+        }
+
+        return result;
+      };
+
+      console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+      console.log(threeSum([0, 0, 0, 0]));
+    </script>
+  </body>
+</html>

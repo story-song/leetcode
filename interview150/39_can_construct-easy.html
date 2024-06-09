@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} ransomNote
+       * @param {string} magazine
+       * @return {boolean}
+       */
+      var canConstruct = function (ransomNote, magazine) {
+        // 判断 ransomNote 能不能由 magazine 里面的字符构成。
+        // magazine 中的每个字符只能在 ransomNote 中使用一次。
+
+        let map1 = new Map();
+
+        let distance = 0;
+
+        for (let i = 0; i < ransomNote.length; i++) {
+          let char = ransomNote[i];
+          if (map1.has(char)) {
+            map1.set(char, map1.get(char) + 1);
+          } else {
+            map1.set(char, 1);
+          }
+          distance++;
+        }
+
+        for (let i = 0; i < magazine.length; i++) {
+          let char = magazine[i];
+          if (map1.has(char) && map1.get(char) > 0) {
+            map1.set(char, map1.get(char) - 1);
+            distance--;
+          }
+        }
+
+        return distance === 0;
+      };
+    </script>
+  </body>
+</html>

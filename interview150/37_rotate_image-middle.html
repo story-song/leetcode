@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[][]} matrix
+       * @return {void} Do not return anything, modify matrix in-place instead.
+       */
+      var rotate = function (matrix) {
+        let copy = new Array(matrix.length).fill(true).map(() => []);
+
+        let n = matrix.length;
+
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            // [ i , j ]
+            // 0 0 -> n 0
+            // n 0 -> n n
+            // n n -> 0 n
+            // 0 n -> 0 0
+            copy[i][j] = matrix[Math.abs(n - j - 1)][i]; //  这个一定存在某种关系， 旋转90度
+          }
+        }
+
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < n; j++) {
+            // [ i , j ]
+            // 0 0 -> n 0
+            // n 0 -> n n
+            // n n -> 0 n
+            // 0 n -> 0 0
+            matrix[i][j] = copy[i][j]; //  这个一定存在某种关系， 旋转90度
+          }
+        }
+
+        return matrix;
+      };
+
+      console.log(
+        rotate([
+          [1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9],
+        ])
+      );
+    </script>
+  </body>
+</html>

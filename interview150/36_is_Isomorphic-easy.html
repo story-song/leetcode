@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @param {string} t
+       * @return {boolean}
+       */
+      var isIsomorphic = function (s, t) {
+        // s和t是否是同构的
+
+        if (s.length !== t.length) {
+          return false;
+        }
+
+        if (s === t) {
+          return true;
+        }
+
+        let map = new Map();
+        let set = new Set();
+
+        for (let i = 0; i < s.length; i++) {
+          let char1 = s[i];
+          let char2 = t[i];
+
+          if (map.has(char1)) {
+            if (map.get(char1) !== char2) {
+              return false;
+            }
+          } else {
+            if (set.has(char2)) {
+              return false;
+            }
+            set.add(char2);
+            map.set(char1, char2);
+          }
+        }
+
+        return true;
+      };
+
+      console.log(isIsomorphic("badc", "baba"));
+    </script>
+  </body>
+</html>
