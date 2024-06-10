@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @return {boolean}
+       */
+      var isValid = function (s) {
+        // 有效的括号
+        if (!s.length) return false;
+
+        let stack = [];
+
+        for (let i = 0; i < s.length; i++) {
+          let char = s[i];
+          switch (char) {
+            case "(":
+              stack.push(")");
+              break;
+            case "[":
+              stack.push("]");
+              break;
+            case "{":
+              stack.push("}");
+              break;
+            default:
+              break;
+          }
+
+          switch (char) {
+            case ")":
+              if (stack.pop() !== ")") return false;
+              break;
+            case "]":
+              if (stack.pop() !== "]") return false;
+              break;
+            case "}":
+              if (stack.pop() !== "}") return false;
+              break;
+            default:
+              break;
+          }
+        }
+
+        return stack.length === 0;
+      };
+
+      console.log(isValid("{[]}"));
+    </script>
+  </body>
+</html>

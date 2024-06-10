@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @param {number} k
+       * @return {boolean}
+       */
+      var containsNearbyDuplicate = function (nums, k) {
+        if (!nums.length) return false;
+
+        let map = new Map();
+
+        for (let i = 0; i < nums.length; i++) {
+          let num = nums[i];
+          if (map.has(num)) {
+            let index = map.get(num);
+            if (i - index <= k) {
+              return true;
+            }
+          }
+          map.set(num, i);
+        }
+
+        return false;
+      };
+    </script>
+  </body>
+</html>

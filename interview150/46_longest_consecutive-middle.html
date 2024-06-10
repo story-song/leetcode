@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。 //
+      // 请你设计并实现时间复杂度为 O(n) 的算法解决此问题。
+      var longestConsecutive = function (nums) {
+        let set = new Set(nums); // 去重复
+
+        let max = 0;
+
+        for (let i = 0; i < nums.length; i++) {
+          const num = nums[i];
+
+          if (set.has(num - 1)) continue; // 如果有前驱节点直接选择跳过
+
+          // 不存在
+          let count = 1;
+
+          while (set.has(num + count)) {
+            count++;
+          }
+
+          max = Math.max(max, count);
+        }
+
+        return max;
+      };
+    </script>
+  </body>
+</html>

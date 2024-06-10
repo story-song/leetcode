@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number} n
+       * @return {boolean}
+       */
+      var isHappy = function (n) {
+        // happy
+
+        let set = new Set();
+
+        let num = n;
+        while (true) {
+          if (set.has(num)) {
+            return false;
+          }
+          set.add(num);
+          let nums = (num + "").split("");
+          let res = 0;
+          for (let i = 0; i < nums.length; i++) {
+            let num = Number(nums[i]);
+            res += num * num;
+          }
+
+          if (res === 1) {
+            return true;
+          }
+          num = res;
+        }
+      };
+
+      console.log(isHappy(2));
+    </script>
+  </body>
+</html>
