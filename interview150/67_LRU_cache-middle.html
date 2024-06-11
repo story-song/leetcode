@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Node(key, val) {
+        this.key = key;
+        this.val = val;
+        this.prev = null;
+        this.next = null;
+      }
+
+      /**
+       * @param {number} capacity
+       */
+      var LRUCache = function (capacity) {
+        this.capacity = capacity;
+        this.map = new Map();
+        this.dummy = new Node(); // 哨兵节点
+        this.dummy.prev = this.dummy;
+        this.dummy.next = this.dummy;
+      };
+
+      LRUCache.prototype.getNode = function (key) {
+        if (!this.map.has(key)) {
+          // 没有这本书
+          return null;
+        }
+        const node = this.map.get(key); // 有这本书
+        this.remove(node); // 把这本书抽出来
+        this.pushFront(node); // 放在最上面
+        return node;
+      };
+
+      LRUCache.prototype.remove = function (x) {
+        x.prev.next = x.next;
+        x.next.prev = x.prev;
+      };
+
+      LRUCache.prototype.pushFront = function (x) {
+        x.prev = this.dummy;
+        x.next = this.dummy.next;
+        x.prev.next = x;
+        x.next.prev = x;
+      };
+
+      /**
+       * @param {number} key
+       * @return {number}
+       */
+      LRUCache.prototype.get = function (key) {
+        const node = this.getNode(key);
+        return node ? node.val : -1;
+      };
+
+      /**
+       * @param {number} key
+       * @param {number} value
+       * @return {void}
+       */
+      LRUCache.prototype.put = function (key, value) {
+        let node = this.getNode(key);
+        if (node) {
+          // 有这本书 的时候直接替换值就好啦
+          node.val = value; // 更新 value
+          return;
+        }
+        node = new Node(key, value); // 新书
+        this.map.set(key, node);
+        this.pushFront(node); // 放在最上面
+        if (this.map.size > this.capacity) {
+          // 书太多了
+          const backNode = this.dummy.prev;
+          this.map.delete(backNode.key);
+          this.remove(backNode); // 去掉最后一本书
+        }
+      };
+
+      let lru = new LRUCache(2);
+      debugger;
+      lru.put(1, 1);
+      lru.put(2, 2);
+      console.log(lru.get(1));
+      lru.put(3, 3);
+      console.log(lru.get(2));
+    </script>
+  </body>
+</html>

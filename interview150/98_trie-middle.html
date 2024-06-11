@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function TrieNode() {
+        this.pass = 0;
+        this.end = 0;
+        this.children = [];
+      }
+
+      var Trie = function () {
+        this.root = new TrieNode();
+      };
+
+      /**
+       * @param {string} word
+       * @return {void}
+       */
+      Trie.prototype.insert = function (word) {
+        let cur = this.root;
+        cur.pass++;
+        for (let i = 0; i < word.length; i++) {
+          const index = word.charCodeAt(i) - "a".charCodeAt(0);
+          if (!cur.children[index]) {
+            const node = new TrieNode();
+            cur.children[index] = node;
+            node.pass++;
+          } else {
+            cur.children[index].pass++;
+          }
+
+          cur = cur.children[index];
+        }
+
+        cur.end++;
+      };
+
+      /**
+       * @param {string} word
+       * @return {boolean}
+       */
+      Trie.prototype.search = function (word) {
+        let cur = this.root;
+
+        for (let i = 0; i < word.length; i++) {
+          const index = word.charCodeAt(i) - "a".charCodeAt(0);
+          if (!cur.children[index]) {
+            return false;
+          } else {
+            cur = cur.children[index];
+          }
+        }
+
+        return !!cur.end;
+      };
+
+      /**
+       * @param {string} prefix
+       * @return {boolean}
+       */
+      Trie.prototype.startsWith = function (prefix) {
+        let cur = this.root;
+
+        for (let i = 0; i < prefix.length; i++) {
+          const index = prefix.charCodeAt(i) - "a".charCodeAt(0);
+          if (!cur.children[index]) {
+            return false;
+          } else {
+            cur = cur.children[index];
+          }
+        }
+
+        return !!cur.pass;
+      };
+    </script>
+  </body>
+</html>

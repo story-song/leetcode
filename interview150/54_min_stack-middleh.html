@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 小根堆
+      var MinStack = function () {
+        this.stack = [];
+        this.min = Number.MAX_SAFE_INTEGER;
+      };
+
+      /**
+       * @param {number} val
+       * @return {void}
+       */
+      MinStack.prototype.push = function (val) {
+        this.stack.push(val);
+        this.min = Math.min(this.min, val);
+      };
+
+      /**
+       * @return {void}
+       */
+      MinStack.prototype.pop = function () {
+        const pop = this.stack.pop();
+        if (pop === this.min) {
+          // 需要重新找到最小值
+          this.min = Math.min(...this.stack);
+        }
+      };
+
+      /**
+       * @return {number}
+       */
+      MinStack.prototype.top = function () {
+        return this.stack[this.stack.length - 1];
+      };
+
+      /**
+       * @return {number}
+       */
+      MinStack.prototype.getMin = function () {
+        return this.min;
+      };
+    </script>
+  </body>
+</html>
