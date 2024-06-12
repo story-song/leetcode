@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number} n
+       * @return {string[]}
+       */
+      var generateParenthesis = function (n) {
+        // n代表括号的对数；
+        // 所有的括号对数，无非就是一个全排列，在其中分支限界一下
+
+        let start = new Array(n).fill("(").join("");
+        let end = new Array(n).fill(")").join("");
+        let len = 2 * n;
+        let result = [];
+
+        function process(start_rest, end_rest, stack, res) {
+          if (res.length === len) {
+            result.push(res);
+            return;
+          }
+
+          // 当前位置可以放的东西；
+
+          if (start_rest.length) {
+            process(start_rest.slice(1), end_rest, [...stack, 1], res + "(");
+          }
+
+          if (stack.length && end_rest.length) {
+            stack.pop();
+            process(start_rest, end_rest.slice(1), [...stack], res + ")");
+          }
+        }
+
+        process(start, end, [], "");
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

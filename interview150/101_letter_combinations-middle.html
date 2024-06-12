@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} digits
+       * @return {string[]}
+       */
+      var letterCombinations = function (digits) {
+        if (!digits) return [];
+        const map = {
+          2: "abc",
+          3: "def",
+          4: "ghi",
+          5: "jkl",
+          6: "mno",
+          7: "pqrs",
+          8: "tuv",
+          9: "wxyz",
+        };
+
+        const result = [];
+
+        function process(digits, index, res) {
+          if (index === digits.length) {
+            result.push(res);
+            return;
+          }
+
+          const num = Number(digits[index]);
+
+          const letters = map[num];
+
+          for (let i = 0; i < letters.length; i++) {
+            const letter = letters[i];
+            process(digits, index + 1, res + letter);
+          }
+        }
+
+        process(digits, 0, "");
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

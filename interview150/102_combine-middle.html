@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合
+      /**
+       * @param {number} n
+       * @param {number} k
+       * @return {number[][]}
+       */
+      var combine = function (n, k) {
+        //
+
+        let res = [];
+
+        let backtrack = (start, track) => {
+          if (track.length === k) {
+            res.push([...track]);
+            return;
+          }
+
+          for (let i = start; i <= n; i++) {
+            track.push(i);
+            backtrack(i + 1, track);
+            track.pop();
+          }
+        };
+
+        backtrack(1, []);
+
+        return res;
+      };
+    </script>
+  </body>
+</html>

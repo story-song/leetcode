@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @return {number[][]}
+       */
+      function swap(arr, i, j) {
+        if (i === j) return;
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+
+      /**
+       * @param {number[]} nums
+       * @return {number[][]}
+       */
+      var permute = function (nums) {
+        let result = [];
+
+        function process(nums, index, unit) {
+          if (index === nums.length) {
+            result.push(unit);
+            return;
+          }
+
+          for (let i = index; i < nums.length; i++) {
+            swap(nums, index, i);
+            process(nums, index + 1, [...nums]);
+            swap(nums, index, i);
+          }
+        }
+
+        process(nums, 0, nums);
+
+        return result;
+      };
+    </script>
+  </body>
+</html>

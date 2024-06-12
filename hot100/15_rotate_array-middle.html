@@ -44,7 +44,7 @@
        * @return {void} Do not return anything, modify nums in-place instead.
        */
       var rotate1 = function (nums, k) {
-        // 这个是自己最出来的
+        // 这个是自己做出来的
         k = k % nums.length;
 
         let arr = new Array(nums.length);
@@ -75,6 +75,7 @@
       };
 
       var rotate2 = function (nums, k) {
+        // 这个方法可以不用占用一个额外的数组空间 ， 主要通过反转的思想
         // 这个是官方的解法
         k = k % nums.length;
 
