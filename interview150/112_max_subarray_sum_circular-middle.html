@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @return {number}
+       */
+      var maxSubarraySumCircular = function (nums) {
+        // 有两种情况
+        // S(i - j) vs S(0 - i) + S (j - n)
+
+        let len = nums.length;
+        let pre = new Array(len);
+        let res = Number.MIN_SAFE_INTEGER;
+
+        let minArr = new Array(len); // 表示在i位置的左侧最小的位置
+        let maxArr = new Array(len); // 表示在i位置的左侧最小的位置
+        let min = Number.MAX_SAFE_INTEGER;
+        let max = Number.MIN_SAFE_INTEGER;
+        let sum = 0;
+
+        for (let i = 0; i < len; i++) {
+          sum = sum + nums[i];
+          pre[i] = sum;
+
+          min = Math.min(min, sum);
+          max = Math.max(max, sum);
+          minArr[i] = min;
+          maxArr[i] = max;
+          let min_ = minArr[i - 1] ? minArr[i - 1] : 0;
+          res = Math.max(res, pre[i] - min_, pre[i]);
+        }
+
+        // debugger
+
+        let rightSum = 0;
+
+        for (let i = len - 1; i >= 0; i--) {
+          rightSum += nums[i];
+          let max_ = maxArr[i - 1] ? maxArr[i - 1] : 0;
+          res = Math.max(res, rightSum + max_);
+        }
+        return res;
+      };
+    </script>
+  </body>
+</html>

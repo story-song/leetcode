@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @return {number}
+       */
+      var maxSubarraySumCircular = function (nums) {
+        let max = Number.MIN_SAFE_INTEGER;
+        let cost = 1;
+        let len = nums.length;
+        debugger;
+        for (let i = 0; i < nums.length; i++) {
+          // 每一个都从i开始出发
+
+          let sum = max === Number.MIN_SAFE_INTEGER ? 0 : max - nums[i - 1];
+          let count = 1;
+          for (let j = cost - 1; j < len; j++) {
+            // j代表的含义是从 i 开始往后进行了多少个累加和
+            // 开始的位置不一定从0开始，而是从上一次得到最大的那个位置的下一个开始
+            let next = nums[(j + i) % len]; //
+            if (sum + next >= max) {
+              max = sum + next;
+              cost = count;
+            }
+            count++;
+            sum = sum + next;
+          }
+        }
+
+        return max;
+      };
+
+      console.log(maxSubarraySumCircular([5, -3, 5]));
+    </script>
+  </body>
+</html>

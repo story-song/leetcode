@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var searchMatrix = function (matrix, target) {
+        // 使用z字形搜索法
+        let m = matrix.length - 1;
+        let n = matrix[0].length - 1;
+
+        let i = 0; // 行
+        let j = n; // 列
+
+        while (i <= m && j >= 0) {
+          if (matrix[i][j] === target) {
+            return true;
+          }
+
+          if (matrix[i][j] > target) {
+            j--;
+          } else {
+            i++;
+          }
+        }
+
+        return false;
+      };
+    </script>
+  </body>
+</html>
