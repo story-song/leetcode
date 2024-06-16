@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Heap {
+        constructor(nums1, nums2) {
+          this.heap = [];
+          this.nums1 = nums1;
+          this.nums2 = nums2;
+        }
+
+        getValue(val) {
+          const [i, j] = val;
+          return this.nums1[i] + this.nums2[j];
+        }
+
+        insert(val) {
+          this.heap.push(val);
+          this.shiftUp(this.heap.length - 1);
+        }
+
+        pop() {
+          if (this.heap.length <= 1) {
+            return this.heap.pop();
+          }
+
+          let top = this.heap[0];
+          this.heap[0] = this.heap.pop();
+          this.shiftDown(0);
+          return top;
+        }
+
+        peek() {
+          return this.heap[0];
+        }
+
+        shiftDown(index) {
+          let cur = index; // 往下
+          let len = this.heap.length;
+          while (cur < len) {
+            // cur至少还有一个孩子
+            let left = cur * 2 + 1;
+            let right = cur * 2 + 2;
+
+            if (left >= len) {
+              return;
+            }
+
+            // 说明至少left是有的
+
+            if (right >= len) {
+              // 只有左孩子
+              if (
+                this.getValue(this.heap[cur]) > this.getValue(this.heap[left])
+              ) {
+                this.swap(cur, left);
+              }
+              return;
+            }
+
+            let large =
+              this.getValue(this.heap[left]) > this.getValue(this.heap[right])
+                ? right
+                : left;
+
+            if (
+              this.getValue(this.heap[cur]) > this.getValue(this.heap[large])
+            ) {
+              this.swap(cur, large);
+              cur = large;
+            } else {
+              break;
+            }
+
+            // cur有可能就是最后一个
+          }
+        }
+
+        shiftUp(index) {
+          let cur = index;
+          while (cur > 0) {
+            let par = (cur - 1) >> 1;
+            if (this.getValue(this.heap[cur]) < this.getValue(this.heap[par])) {
+              this.swap(cur, par);
+              cur = par;
+            } else {
+              break;
+            }
+          }
+        }
+
+        swap(i, j) {
+          if (i === j) return;
+          let temp = this.heap[i];
+          this.heap[i] = this.heap[j];
+          this.heap[j] = temp;
+        }
+      }
+
+      /**
+       * @param {number[]} nums1
+       * @param {number[]} nums2
+       * @param {number} k
+       * @return {number[][]}
+       */
+      var kSmallestPairs = function (nums1, nums2, k) {
+        let heap = new Heap(nums1, nums2);
+        let m = nums1.length;
+        let n = nums2.length;
+        k = Math.min(k, m * n);
+        heap.insert([0, 0]);
+        let set = new Set();
+        let result = [];
+
+        while (k) {
+          let pop = heap.pop();
+
+          if (pop) {
+            const [i, j] = pop;
+            if (!set.has(`${i},${j}`)) {
+              set.add(`${i},${j}`);
+              result.push([nums1[i], nums2[j]]);
+
+              if (i === m - 1 || j === n - 1) {
+                // 如果经历了边界
+                if (i < m - 1) {
+                  heap.insert([i + 1, j]);
+                }
+
+                if (j < n - 1) {
+                  heap.insert([i, j + 1]);
+                }
+                if (i === m - 1 && j === n - 1) {
+                  return result;
+                }
+              } else {
+                let next1 = [i, j + 1];
+                let next2 = [i + 1, j];
+                if (nums1[i] + nums2[j + 1] <= nums1[i + 1] + nums2[j]) {
+                  heap.insert(next1);
+                } else {
+                  heap.insert(next2);
+                }
+              }
+            }
+          }
+
+          k--;
+        }
+
+        return result;
+      };
+
+      console.log(
+        kSmallestPairs([1, 7, 11], [2, 4, 6], 3)
+        // kSmallestPairs([1, 1, 2], [1, 2, 3], 2),
+        // kSmallestPairs([1, 2], [3], 3)
+      );
+    </script>
+  </body>
+</html>

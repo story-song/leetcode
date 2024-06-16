@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums
+       * @param {number} target
+       * @return {number}
+       */
+      var search = function (nums, target) {
+        // 整数数组 nums 按升序排列，数组中的值 互不相同。
+
+        // 思路，先找到k ,然后在 0 -> k , k + 1 -> n 分别做一下二分查找
+        let k = 0;
+        for (let i = 0; i < nums.length - 1; i++) {
+          if (nums[i] > nums[i + 1]) {
+            k = i;
+            break;
+          }
+        }
+
+        let left = 0;
+        let right = k;
+
+        while (left <= right) {
+          let mid = (left + right) >> 1;
+          if (nums[mid] === target) {
+            return mid;
+          } else if (nums[mid] > target) {
+            right = mid - 1;
+          } else {
+            left = mid + 1;
+          }
+        }
+
+        left = k + 1;
+        right = nums.length - 1;
+
+        while (left <= right) {
+          let mid = (left + right) >> 1;
+          if (nums[mid] === target) {
+            return mid;
+          } else if (nums[mid] > target) {
+            right = mid - 1;
+          } else {
+            left = mid + 1;
+          }
+        }
+
+        return -1;
+      };
+
+      console.log(
+        search([4, 5, 6, 7, 0, 1, 2], 0),
+        search([4, 5, 6, 7, 0, 1, 2], 3)
+      );
+    </script>
+  </body>
+</html>

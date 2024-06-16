@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number} n - a positive integer
+       * @return {number} - a positive integer
+       */
+      var reverseBits = function (n) {
+        //
+        let string = n.toString(2);
+        while (string.length < 32) {
+          string = "0" + string;
+        }
+
+        string = string.split("").reverse().join("");
+
+        return parseInt(string, 2);
+      };
+
+      console.log(reverseBits(43261596));
+    </script>
+  </body>
+</html>
