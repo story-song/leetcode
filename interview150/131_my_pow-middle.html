@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number} x
+       * @param {number} n
+       * @return {number}
+       */
+      var myPow = function (x, n) {
+        if (x === 1) return x;
+        if (n === 0) return 1;
+        if (n === 1) return x;
+        if (n === -1) return 1 / x;
+        let falg = n > 0; // true 为正数
+        n = Math.abs(n);
+
+        function quickMul(x, N) {
+          if (N == 0) {
+            return 1.0;
+          }
+          let y = quickMul(x, Math.floor(N / 2));
+          return N % 2 == 0 ? y * y : y * y * x;
+        }
+
+        debugger;
+        let res = quickMul(x, n);
+
+        return falg ? res : 1 / res;
+      };
+
+      console.log(myPow(2.0, 10));
+    </script>
+  </body>
+</html>

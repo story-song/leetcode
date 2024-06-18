@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} digits
+       * @return {number[]}
+       */
+      var plusOne = function (digits) {
+        let cur = digits.length - 1;
+        digits[digits.length - 1]++;
+
+        while (digits[cur] >= 10 && cur >= 0) {
+          // 说明当前的cur位是大于10的；
+
+          digits[cur] = 0;
+          if (cur === 0) {
+            digits.unshift(1);
+            break;
+          }
+          digits[cur - 1]++;
+          cur--;
+        }
+
+        return digits;
+      };
+
+      console.log(plusOne([9, 9, 9, 9]));
+    </script>
+  </body>
+</html>
