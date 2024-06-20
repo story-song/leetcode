@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[][]} grid
+       * @return {number}
+       */
+      var minPathSum = function (grid) {
+        // 方法一：暴力解法
+        // 找到一条路径和最少
+
+        const m = grid.length;
+        const n = grid[0].length;
+
+        const dp = new Array(m);
+
+        let res = 0;
+        for (let i = 0; i < m; i++) {
+          dp[i] = new Array(n);
+          res += grid[i][0];
+          dp[i][0] = res;
+        }
+
+        res = 0;
+        for (let i = 0; i < n; i++) {
+          res += grid[0][i];
+          dp[0][i] = res;
+        }
+
+        for (let i = 1; i < m; i++) {
+          for (let j = 1; j < n; j++) {
+            dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+          }
+        }
+
+        // console.log(dp);
+
+        return dp[m - 1][n - 1];
+      };
+    </script>
+  </body>
+</html>

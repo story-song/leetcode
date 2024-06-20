@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[][]} triangle
+       * @return {number}
+       */
+      var minimumTotal = function (triangle) {
+        if (triangle.length === 0) return 0;
+
+        let dp = new Array(triangle.length)
+          .fill(true)
+          .map((item, index) => new Array(index + 1));
+
+        dp[0][0] = triangle[0][0];
+        // debugger
+        for (let i = 1; i < triangle.length; i++) {
+          // 行
+          for (let j = 0; j <= i; j++) {
+            //
+            if (j === 0) {
+              dp[i][j] = dp[i - 1][0] + triangle[i][j];
+              continue;
+            }
+
+            if (j === i) {
+              dp[i][j] = dp[i - 1][j - 1] + triangle[i][j];
+              continue;
+            }
+
+            dp[i][j] =
+              Math.min(dp[i - 1][j], dp[i - 1][j - 1]) + triangle[i][j];
+          }
+        }
+
+        let res = Number.MAX_SAFE_INTEGER;
+        let row = dp.at(-1);
+        for (let i = 0; i < row.length; i++) {
+          res = Math.min(res, row[i]);
+        }
+
+        return res;
+      };
+    </script>
+  </body>
+</html>

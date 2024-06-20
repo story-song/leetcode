@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @param {string[]} wordDict
+       * @return {boolean}
+       */
+      var wordBreak = function (s, wordDict) {
+        if (s.length === 0) return false;
+        let set = new Set(wordDict);
+        let dp = new Array(s.length).fill(false);
+
+        dp[0] = set.has(s.slice(0, 1));
+
+        for (let i = 1; i < s.length; i++) {
+          let res = false;
+          res = dp[i] = set.has(s.slice(0, i + 1)) ? true : false;
+          if (dp[i] === false) {
+            for (let j = 0; j < i; j++) {
+              // 判断 0 -> j && j-> i;
+              if (dp[j] === true && set.has(s.slice(j + 1, i + 1))) {
+                res = true;
+                break;
+              }
+            }
+          }
+          dp[i] = res;
+        }
+
+        return dp[dp.length - 1];
+      };
+
+      console.log(wordBreak("aaaaaaa", ["aaaa", "aaaf"]));
+    </script>
+  </body>
+</html>

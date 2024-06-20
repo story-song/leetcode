@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[][]} obstacleGrid
+       * @return {number}
+       */
+      var uniquePathsWithObstacles = function (obstacleGrid) {
+        if (obstacleGrid.length === 0) return 0;
+        let m = obstacleGrid.length;
+        let n = obstacleGrid[0].length;
+        let dp = new Array(m).fill(true).map(() => new Array(n));
+
+        dp[0][0] = obstacleGrid[0][0] === 0 ? 1 : 0;
+
+        for (let i = 0; i < m; i++) {
+          for (let j = 0; j < n; j++) {
+            // debugger
+            if (i === 0 && j === 0) continue;
+            if (i === 0) {
+              dp[i][j] = obstacleGrid[i][j] === 1 ? 0 : dp[i][j - 1];
+              continue;
+            }
+
+            if (j === 0) {
+              dp[i][j] = obstacleGrid[i][j] === 1 ? 0 : dp[i - 1][j];
+              continue;
+            }
+
+            if (obstacleGrid[i][j] === 1) {
+              dp[i][j] = 0;
+              continue;
+            }
+
+            let top = obstacleGrid[i - 1][j] === 1 ? 0 : dp[i - 1][j];
+            let left = obstacleGrid[i][j - 1] === 1 ? 0 : dp[i][j - 1];
+
+            dp[i][j] = top + left;
+          }
+        }
+
+        return dp[m - 1][n - 1];
+      };
+    </script>
+  </body>
+</html>

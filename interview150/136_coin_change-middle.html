@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} coins
+       * @param {number} amount
+       * @return {number}
+       */
+      var coinChange = function (coins, amount) {
+        // 这种动态规划不太好
+        // 能够凑成amount的最少的硬币个数
+
+        if (amount === 0) return 0;
+
+        let dp = new Array(amount + 1).fill(-1);
+
+        let set = new Set(coins);
+
+        dp[0] = 0;
+        dp[1] = set.has(1) ? 1 : -1;
+
+        for (let i = 2; i < dp.length; i++) {
+          // 能够搞定i需要什么样的条件
+          if (set.has(i)) {
+            dp[i] = 1;
+            continue;
+          }
+          let min = Infinity;
+          for (let j = 1; j < i; j++) {
+            let one = dp[j];
+            let two = dp[i - j];
+            if (one !== -1 && two !== -1) {
+              min = Math.min(min, one + two);
+            }
+          }
+
+          dp[i] = min === Infinity ? -1 : min;
+        }
+
+        return dp.at(-1);
+      };
+
+      console.log(coinChange([1, 2, 5], 11));
+    </script>
+  </body>
+</html>
