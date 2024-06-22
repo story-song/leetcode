@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[]} nums1
+       * @param {number[]} nums2
+       * @return {number}
+       */
+      var findMedianSortedArrays = function (nums1, nums2) {
+        // 这个复杂度是 O (m + n)
+        // 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+        // 算法的时间复杂度应该为 O(log (m+n))
+
+        // 返回他们的中位数 归并
+
+        let merged = [];
+
+        let left = 0;
+        let right = 0;
+
+        while (left < nums1.length && right < nums2.length) {
+          if (nums1[left] < nums2[right]) {
+            merged.push(nums1[left]);
+            left++;
+          } else {
+            merged.push(nums2[right]);
+            right++;
+          }
+        }
+
+        if (left === nums1.length) {
+          // left用完了
+          for (let i = right; i < nums2.length; i++) {
+            merged.push(nums2[i]);
+          }
+        }
+
+        if (right === nums2.length) {
+          // right用完了
+          for (let i = left; i < nums1.length; i++) {
+            merged.push(nums1[i]);
+          }
+        }
+
+        if (merged.length % 2 === 0) {
+          // 偶数
+          return (
+            (merged[merged.length / 2 - 1] + merged[merged.length / 2]) / 2
+          );
+        } else {
+          // 奇数
+          return merged[Math.floor(merged.length / 2)];
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 封装一个牛逼的堆
+       */
+
+      class Heap {
+        constructor(compare) {
+          // compare是一个比较器
+          this.heap = [];
+          this.compare = compare;
+        }
+
+        insert(val) {
+          this.heap.push(val);
+          this.shiftUp(this.heap, this.heap.length - 1);
+        }
+
+        pop() {
+          if (this.heap.length <= 1) {
+            return this.heap.pop();
+          }
+
+          // debugger;
+          let pop = this.heap[0];
+          this.heap[0] = this.heap.pop();
+          this.shiftDown(this.heap, 0);
+          return pop;
+        }
+
+        peek() {
+          return this.heap[0];
+        }
+
+        shiftUp(arr, index) {
+          // 代表从index处往上进行窜
+          while (index > 0) {
+            let par = (index - 1) >> 1;
+            if (this.compare(arr[index], arr[par]) > 0) {
+              this.swap(arr, index, par);
+              index = par;
+            } else {
+              break;
+            }
+          }
+        }
+
+        shiftDown(arr, index) {
+          // 代表从index处往下进行窜
+          while (index < this.heap.length - 1) {
+            let left = index * 2 + 1;
+            let right = left + 1;
+
+            // 如果在index > 0 的情况下是一定有孩子的；
+
+            if (arr[right] === undefined) {
+              if (this.compare(arr[index], arr[left]) < 0) {
+                this.swap(arr, index, left);
+                index = left;
+              } else {
+                break;
+              }
+            }
+
+            // 说明左右孩子都有
+
+            let compareor =
+              this.compare(arr[left], arr[right]) > 0 ? left : right;
+
+            if (this.compare(arr[index], arr[compareor]) < 0) {
+              this.swap(arr, index, compareor);
+              index = compareor;
+            } else {
+              break;
+            }
+          }
+        }
+
+        swap(arr, i, j) {
+          if (i === j) return;
+          let temp = arr[i];
+          arr[i] = arr[j];
+          arr[j] = temp;
+        }
+      }
+
+      /**
+       * @param {number} k
+       * @param {number} w
+       * @param {number[]} profits
+       * @param {number[]} capital
+       * @return {number}
+       */
+      var findMaximizedCapital = function (k, w, profits, capital) {
+        // 题目：最多可以做k个项目，已实现利润最大，w是初始资金w
+        let profit = 0;
+
+        let capitalHeap = new Heap((a, b) => capital[b] - capital[a]); // 资金消耗的小堆
+
+        let profitHeap = new Heap((a, b) => profits[a] - profits[b]);
+
+        for (let i = 0; i < capital.length; i++) {
+          let cap = capital[i];
+          // if (cap <= w) {
+          capitalHeap.insert(i);
+          // }
+        }
+
+        while (k > 0) {
+          while (
+            capitalHeap.peek() !== undefined &&
+            capital[capitalHeap.peek()] <= w
+          ) {
+            // 将符合条件的资金消耗的放入利润堆中
+            profitHeap.insert(capitalHeap.pop());
+          }
+
+          // 从利润堆中取出利润最大的项目，实现利润最大
+          if (profitHeap.peek() !== undefined) {
+            k--;
+            let item_index = profitHeap.pop();
+            // w -= capital[item_index];
+            w += profits[item_index];
+          } else {
+            break;
+          }
+        }
+
+        return w;
+      };
+
+      // console.log(findMaximizedCapital(2, 0, [1, 2, 3], [0, 1, 1]));
+      console.log(findMaximizedCapital(3, 0, [1, 2, 3], [0, 1, 2]));
+
+      // let arr = [3, 2, 6, 1, 8, 0, 2, 4];
+
+      // let heap = new Heap((a, b) => b - a);
+
+      // for (let i = 0; i < arr.length; i++) {
+      //   heap.insert(arr[i]);
+      // }
+    </script>
+  </body>
+</html>

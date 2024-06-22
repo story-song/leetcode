@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Heap {
+        constructor(compare) {
+          // compare是一个比较器
+          this.heap = [];
+          this.compare = compare;
+        }
+
+        insert(val) {
+          this.heap.push(val);
+          this.shiftUp(this.heap, this.heap.length - 1);
+        }
+
+        pop() {
+          if (this.heap.length <= 1) {
+            return this.heap.pop();
+          }
+
+          // debugger;
+          let pop = this.heap[0];
+          this.heap[0] = this.heap.pop();
+          this.shiftDown(this.heap, 0);
+          return pop;
+        }
+
+        peek() {
+          return this.heap[0];
+        }
+
+        shiftUp(arr, index) {
+          // 代表从index处往上进行窜
+          while (index > 0) {
+            let par = (index - 1) >> 1;
+            if (this.compare(arr[index], arr[par]) > 0) {
+              this.swap(arr, index, par);
+              index = par;
+            } else {
+              break;
+            }
+          }
+        }
+
+        shiftDown(arr, index) {
+          // 代表从index处往下进行窜
+          while (index < this.heap.length - 1) {
+            let left = index * 2 + 1;
+            let right = left + 1;
+
+            // 如果在index > 0 的情况下是一定有孩子的；
+
+            if (arr[left] === undefined) {
+              break;
+            }
+
+            if (arr[right] === undefined) {
+              if (this.compare(arr[index], arr[left]) < 0) {
+                this.swap(arr, index, left);
+                index = left;
+                break;
+              } else {
+                break;
+              }
+            }
+
+            // 说明左右孩子都有
+
+            let compareor =
+              this.compare(arr[left], arr[right]) > 0 ? left : right;
+
+            if (this.compare(arr[index], arr[compareor]) < 0) {
+              this.swap(arr, index, compareor);
+              index = compareor;
+            } else {
+              break;
+            }
+          }
+        }
+
+        swap(arr, i, j) {
+          if (i === j) return;
+          let temp = arr[i];
+          arr[i] = arr[j];
+          arr[j] = temp;
+        }
+      }
+
+      function ListNode(val, next) {
+        this.val = val === undefined ? 0 : val;
+        this.next = next === undefined ? null : next;
+      }
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode[]} lists
+       * @return {ListNode}
+       */
+      var mergeKLists = function (lists) {
+        let heap = new Heap((a, b) => b.val - a.val);
+        let result = null;
+        let cur = null;
+        for (let i = 0; i < lists.length; i++) {
+          if (lists[i]) {
+            heap.insert(lists[i]);
+          }
+        }
+
+        while (heap.heap.length) {
+          let pop = heap.pop();
+          if (result === null) {
+            result = pop;
+            cur = result;
+          } else {
+            cur.next = pop;
+            cur = pop;
+          }
+          if (pop && pop.next) {
+            heap.insert(pop.next);
+          }
+        }
+
+        return result;
+      };
+
+      let node1_1 = new ListNode(-8);
+      let node1_2 = new ListNode(-7);
+      let node1_3 = new ListNode(-7);
+      let node1_4 = new ListNode(-5);
+      let node1_5 = new ListNode(1);
+      let node1_6 = new ListNode(1);
+      let node1_7 = new ListNode(3);
+      let node1_8 = new ListNode(4);
+
+      node1_1.next = node1_2;
+      node1_2.next = node1_3;
+      node1_3.next = node1_4;
+      node1_4.next = node1_5;
+      node1_5.next = node1_6;
+      node1_6.next = node1_7;
+      node1_7.next = node1_8;
+
+      let node2_1 = new ListNode(-2);
+
+      let node3_1 = new ListNode(-10);
+      let node3_2 = new ListNode(-10);
+      let node3_3 = new ListNode(-7);
+      let node3_4 = new ListNode(0);
+      let node3_5 = new ListNode(1);
+      let node3_6 = new ListNode(3);
+
+      node3_1.next = node3_2;
+      node3_2.next = node3_3;
+      node3_3.next = node3_4;
+      node3_4.next = node3_5;
+      node3_5.next = node3_6;
+
+      let node4_1 = new ListNode(2);
+
+      // [[-8,-7,-7,-5,1,1,3,4],[-2],[-10,-10,-7,0,1,3],[2]]
+
+      console.log(mergeKLists([node1_1, node2_1, node3_1, node4_1]));
+
+      // console.log(mergeKLists([null, null]));
+    </script>
+  </body>
+</html>
