@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number} k
+       * @param {number[]} prices
+       * @return {number}
+       */
+      var maxProfit = function (k, prices) {
+        // 最大的利润，最多可以交易两笔；
+        //  dp[i][j]
+        // 0 代表，未持有股票，1代表持有股票
+        let len = prices.length;
+        // k = k % (len >> 1); // 为了 规避错误
+        let stateCount = 2 * k + 1;
+
+        let dp = new Array(len + 1).fill(true).map(() => new Array(stateCount));
+
+        dp[len][stateCount - 1] = 0;
+
+        function process(cur, state) {
+          if (state >= stateCount - 1 || cur >= prices.length) {
+            dp[cur][state] = 0;
+            return 0;
+          }
+
+          // 今天的股价是
+          let price = prices[cur];
+          let c1 = 0;
+          let c2 = 0;
+
+          if (dp[cur][state] !== undefined) {
+            return dp[cur][state];
+          }
+
+          // 不作为
+          c2 = process(cur + 1, state);
+          // 买
+          let flag = state % 2 == 0 ? -1 : 1;
+
+          c1 = process(cur + 1, state + 1) + price * flag;
+
+          dp[cur][state] = Math.max(c1, c2);
+          return dp[cur][state];
+        }
+
+        process(0, 0);
+
+        return dp[0][0];
+      };
+    </script>
+  </body>
+</html>

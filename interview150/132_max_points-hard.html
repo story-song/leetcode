@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {number[][]} points
+       * @return {number}
+       */
+      var maxPoints = function (points) {
+        if (points.length <= 1) return points.length;
+        // return length;
+        // 最多有多少个点在同一直线上
+        // 如果在一条直线上 会满足 y = ax + b;
+
+        // 暴力解法
+
+        // 一共有 n! 这么多条直线
+        // 在这些直线当中一定存在某一条直线所包含的点是最多的；
+
+        let map = new Map();
+
+        let max = 2;
+
+        for (let i = 0; i < points.length; i++) {
+          for (let j = i + 1; j < points.length; j++) {
+            let [x1, y1] = points[i];
+            let [x2, y2] = points[j];
+
+            // 根据p1 p2 可以确定一个 a b;
+
+            // y1 = a * x1 + b;
+            // y2 = a * x2 + b;
+            if (x2 - x1 !== 0) {
+              let a = ((y2 - y1) / (x2 - x1)).toFixed(9);
+              let b = (y1 - ((y2 - y1) / (x2 - x1)) * x1).toFixed(9);
+
+              let key = `${a}-${b}`;
+
+              if (map.has(key)) {
+                map.get(key).add(`${x1}-${y1}`);
+                map.get(key).add(`${x2}-${y2}`);
+              } else {
+                let set = new Set();
+                set.add(`${x1}-${y1}`);
+                set.add(`${x2}-${y2}`);
+                map.set(key, set);
+              }
+
+              let size = map.get(key).size;
+
+              max = Math.max(max, size);
+            } else {
+              let key = `|-${x2}`;
+
+              if (map.has(key)) {
+                map.get(key).add(`${x1}-${y1}`);
+                map.get(key).add(`${x2}-${y2}`);
+              } else {
+                let set = new Set();
+                set.add(`${x1}-${y1}`);
+                set.add(`${x2}-${y2}`);
+                map.set(key, set);
+              }
+
+              let size = map.get(key).size;
+
+              max = Math.max(max, size);
+            }
+          }
+        }
+
+        return max;
+      };
+    </script>
+  </body>
+</html>

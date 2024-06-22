@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s1
+       * @param {string} s2
+       * @param {string} s3
+       * @return {boolean}
+       */
+      var isInterleave = function (s1, s2, s3) {
+        // 判断s3是否由 s1 + s2 构成；
+        // s1 和 s2 的长度之和必须等于 s3 的长度
+        // s1 拆分后的长度 和 s2拆分后的长度之差不能大于1；
+        // 拆分好之后的组合只有可能有两种；
+        if (s1.length === 0) return s2 === s3;
+        if (s2.length === 0) return s1 === s3;
+        if (s1.length + s2.length !== s3.length) return false;
+
+        // 方法一：暴力解法，枚举出所有可能，然后判断是否满足条件；
+
+        return;
+      };
+
+      let result = [];
+
+      function process(str, index, group) {
+        // 可以切 0 - str.length 这么多刀
+
+        if (index >= str.length || str.length === 0) {
+          result.push(group);
+          return;
+        }
+
+        // debugger;
+
+        for (let i = 0; i <= str.length; i++) {
+          let split = str.slice(0, i);
+          let newGroup = [...group];
+          if (split.length > 0) {
+            newGroup.push(split);
+          }
+
+          process(str.slice(i), index + 1, newGroup);
+        }
+      }
+
+      process("aabcc", 0, []);
+
+      console.log(result);
+
+      console.log(isInterleave("aabcc", "dbbca", "aadbbcbcac"));
+    </script>
+  </body>
+</html>
