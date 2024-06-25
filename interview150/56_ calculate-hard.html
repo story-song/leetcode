@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @return {number}
+       */
+      var calculate = function (s) {
+        let stack = [];
+        let str = "";
+
+        function calc(str) {
+          let res = 0;
+          str = "+" + str;
+          for (let i = 0; i < str.length; ) {
+            if (str[i] === " ") {
+              i++;
+              continue;
+            }
+            if (str[i] === "+" || str[i] === "-") {
+              let tmp = "";
+              let flag = str[i];
+              i++;
+              while (str[i] !== "+" && str[i] !== "-" && i < str.length) {
+                tmp += str[i];
+                i++;
+              }
+
+              if (tmp === "" && flag === "-" && str[i] === "-") {
+                i++;
+              }
+              res += flag === "+" ? Number(tmp) : -Number(tmp);
+            } else {
+              let tmp = "";
+              while (str[i] !== "+" && str[i] !== "-" && i < str.length) {
+                tmp += str[i];
+                i++;
+              }
+
+              res += Number(tmp);
+            }
+          }
+
+          return res;
+        }
+
+        for (let i = 0; i < s.length; i++) {
+          let char = s[i];
+          if (char === " ") {
+            continue;
+          }
+
+          if (char === "(") {
+            stack.push("");
+            continue;
+          }
+
+          if (char === ")") {
+            // 该清算了
+            let num = calc(stack.pop());
+
+            if (stack.length) {
+              let last = stack[stack.length - 1];
+              stack[stack.length - 1] = last + num;
+            } else {
+              str += num;
+            }
+            continue;
+          }
+
+          if (stack.length) {
+            let last = stack[stack.length - 1];
+            stack[stack.length - 1] = last + char;
+          } else {
+            str += char;
+          }
+        }
+
+        return calc(str);
+      };
+    </script>
+  </body>
+</html>

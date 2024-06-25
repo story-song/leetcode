@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @param {string} s
+       * @param {string[]} words
+       * @return {number[]}
+       */
+      var findSubstring = function (s, words) {
+        // 首先第一步，先判断
+
+        let l_w = words.length;
+        let w = words[0].length;
+        let l_s = s.length;
+
+        if (l_s < l_w * w) {
+          return [];
+        }
+
+        let map = new Map();
+
+        for (let i = 0; i < l_w; i++) {
+          if (map.get(words[i])) {
+            map.set(words[i], map.get(words[i]) + 1);
+          } else {
+            map.set(words[i], 1);
+          }
+        }
+
+        let l = 0;
+        let r = l_w * w - 1;
+        let res = [];
+
+        while (r < s.length) {
+          let str = s.slice(l, r + 1);
+          // 判断str是否可以被words乱序构建完成
+          let win_map = new Map();
+          let exist = true;
+          let limit = str.length / w;
+          for (let i = 0; i < limit; i++) {
+            let unit = str.slice(i * w, (i + 1) * w);
+            if (!map.get(unit)) {
+              exist = false;
+              break;
+            } else {
+              let cur_num = win_map.get(unit);
+              let std_num = map.get(unit);
+              if (cur_num) {
+                win_map.set(unit, cur_num + 1);
+              } else {
+                win_map.set(unit, 1);
+              }
+
+              cur_num = win_map.get(unit);
+              if (cur_num > std_num) {
+                exist = false;
+                break;
+              }
+            }
+          }
+
+          if (exist) {
+            res.push(l);
+          }
+
+          l++;
+          r++;
+        }
+
+        return res;
+      };
+    </script>
+  </body>
+</html>
