@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * Definition for singly-linked list.
+     * function ListNode(val) {
+     *     this.val = val;
+     *     this.next = null;
+     * }
+     */
+
+    /**
+     * @param {ListNode} headA
+     * @param {ListNode} headB
+     * @return {ListNode}
+     */
+    var getIntersectionNode = function(headA, headB) {
+      
+      const set = new Set();
+
+
+      while (headB) {
+        set.add(headB)
+        headB = headB.next;
+      }
+
+
+      while (headA) {
+        if(set.has(headA)){
+          return headA;
+        }
+
+        headA = headA.next;
+      }
+
+      return null;
+    };
+
+
+    // 思路有很多，比如先遍历一遍对齐，或者
+  </script>
+</body>
+</html>
