@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * Definition for singly-linked list.
+     * function ListNode(val, next) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.next = (next===undefined ? null : next)
+     * }
+     */
+    /**
+     * @param {ListNode} l1
+     * @param {ListNode} l2
+     * 
+     * @return {ListNode}
+     */
+
+
+    function ListNode(val, next) {
+      this.val = (val===undefined ? 0 : val)
+      this.next = (next===undefined ? null : next)
+    }
+
+    var addTwoNumbers = function(l1, l2) {
+      
+      let num1 = l1;
+      let num2 = l2;
+
+      let up = false;
+
+      let result = null;
+      let current = null;
+
+      while (num1 || num2) {
+        
+        const v1 = num1 ? num1.val : 0;
+        const v2 = num2 ? num2.val : 0;
+
+        const val = up ? v1 + v2 + 1 : v1 + v2; // 18
+        
+        const r = val >= 10 ? val - 10 : val // 8
+        
+        up = val >= 10 ? true : false;
+
+        const newNode = new ListNode(r);
+
+        if(!current){;
+          result = newNode;
+          current = newNode;
+        }else{
+          current.next = newNode;
+          current = newNode;
+        }
+
+        if(num1){
+          num1 = num1.next;
+        }
+
+        if(num2){
+          num2 = num2.next;
+        }
+      }
+
+      if(up){
+        current.next = new ListNode(1);
+      }
+
+      return result;
+    };
+
+    //[9,9,9,9,9,9,9], 
+    //[9,9,9,9]
+    const node1 = new ListNode(9);
+    const node2 = new ListNode(9);
+    const node3 = new ListNode(9);
+    const node4 = new ListNode(9);
+    const node5 = new ListNode(9);
+    const node6 = new ListNode(9);
+    const node7 = new ListNode(9);
+
+
+    const node8 = new ListNode(9);
+    const node9 = new ListNode(9);
+    const node10 = new ListNode(9);
+    const node11 = new ListNode(9);
+
+    node1.next = node2;
+    node2.next = node3;
+    node3.next = node4;
+    node4.next = node5;
+    node5.next = node6;
+    node6.next = node7;
+
+    node8.next = node9;
+    node9.next = node10;
+    node10.next = node11;
+
+
+    console.log(addTwoNumbers(node1 , node8));
+    // 243
+    // 564;
+  </script>
+</body>
+</html>
