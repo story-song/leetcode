@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+
+      /**
+       * @param {ListNode} head
+       * @return {ListNode}
+       */
+      var swapPairs = function (head) {
+        if (!head) {
+          return head;
+        }
+
+        if (!head.next) {
+          return head;
+        }
+
+        // 两两交换链表相邻的两个节点；
+
+        let cur = head.next;
+        let result = head.next;
+        let i = 2;
+        let pre = head;
+
+        while (cur) {
+          let next = cur.next;
+
+          if (i % 2 === 0) {
+            // 偶数位
+            cur.next = pre;
+            pre.next = next;
+          } else {
+            // 奇数位
+            pre.next = next ? next : cur;
+            pre = cur;
+          }
+
+          cur = next;
+          i++;
+        }
+
+        return result;
+      };
+
+      var swapPairs = function (head) {
+        // 递归的方式更加的符合直觉
+        if (head === null || head.next === null) {
+          return head;
+        }
+        const newHead = head.next;
+        head.next = swapPairs(newHead.next);
+        newHead.next = head;
+        return newHead;
+      };
+
+      function ListNode(val, next) {
+        this.val = val === undefined ? 0 : val;
+        this.next = next === undefined ? null : next;
+      }
+
+      const node1 = new ListNode(1);
+      const node2 = new ListNode(2);
+      const node3 = new ListNode(3);
+      const node4 = new ListNode(4);
+      const node5 = new ListNode(5);
+      const node6 = new ListNode(6);
+      const node7 = new ListNode(7);
+
+      node1.next = node2;
+      node2.next = node3;
+      node3.next = node4;
+      node4.next = node5;
+      node5.next = node6;
+
+      console.log(swapPairs(node1)); // 2 1 4 3 6 5 7
+    </script>
+  </body>
+</html>

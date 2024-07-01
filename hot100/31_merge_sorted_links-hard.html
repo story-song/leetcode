@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Heap {
+        constructor(compare) {
+          this.heap = [];
+          this.compare = compare;
+        }
+
+        swap(i, j) {
+          if (i === j) {
+            return;
+          }
+          let temp = this.heap[i];
+          this.heap[i] = this.heap[j];
+          this.heap[j] = temp;
+        }
+
+        pop() {
+          // 弹出栈顶元素
+          if (this.heap.length === 0) {
+            return null;
+          }
+
+          if (this.heap.length === 1) {
+            return this.heap.shift();
+          }
+
+          const peek = this.heap[0];
+
+          const last = this.heap.pop();
+
+          this.heap[0] = last;
+
+          let index = 0; // 往下窜
+          let left = 2 * index + 1;
+          let right = left + 1;
+
+          while (right < this.heap.length) {
+            // 应该让index往下走
+
+            // 让index往下窜
+            let compare = this.compare(this.heap[right], this.heap[left])
+              ? right
+              : left;
+
+            if (this.compare(this.heap[compare], this.heap[index])) {
+              this.swap(compare, index);
+
+              index = compare;
+              left = 2 * index + 1;
+              right = left + 1;
+            } else {
+              break;
+            }
+          }
+
+          if (left < this.heap.length) {
+            // 继续交换
+
+            if (this.compare(this.heap[left], this.heap[index])) {
+              this.swap(index, left);
+            }
+          }
+
+          return peek;
+        }
+
+        push(num) {
+          // switchUp就好了
+          this.heap.push(num);
+
+          let index = this.heap.length - 1;
+          let parent = (index - 1) >> 1;
+
+          while (index !== 0) {
+            if (this.compare(this.heap[index], this.heap[parent])) {
+              // 说明需要网上冒
+              this.swap(index, parent); // compare  a - b < 0 小
+
+              index = parent;
+              parent = (index - 1) >> 1;
+              continue;
+            } else {
+              break;
+            }
+          }
+        }
+
+        top() {
+          return this.heap[0];
+        }
+      }
+
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode[]} lists
+       * @return {ListNode}
+       */
+      var mergeKLists = function (lists) {
+        // 有n个链表，合并它们
+
+        // 需要有k个指针
+
+        const point = {};
+
+        // 维持一个堆 小根堆
+
+        const minHeap = new Heap((a, b) => a.val < b.val);
+
+        for (let i = 0; i < lists.length; i++) {
+          const node = lists[i];
+          if (node) {
+            minHeap.push(node);
+          }
+        }
+
+        let head = null;
+        let pre = null;
+        while (minHeap.heap.length) {
+          const minNode = minHeap.pop(); // 获取一个最小的
+
+          if (head === null) {
+            head = minNode;
+          }
+
+          if (minNode.next) {
+            minHeap.push(minNode.next);
+          }
+
+          if (pre) {
+            pre.next = minNode;
+          }
+
+          pre = minNode;
+        }
+
+        return head;
+      };
+    </script>
+  </body>
+</html>

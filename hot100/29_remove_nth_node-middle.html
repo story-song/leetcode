@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * Definition for singly-linked list.
+       * function ListNode(val, next) {
+       *     this.val = (val===undefined ? 0 : val)
+       *     this.next = (next===undefined ? null : next)
+       * }
+       */
+      /**
+       * @param {ListNode} head
+       * @param {number} n
+       * @return {ListNode}
+       */
+      var removeNthFromEnd = function (head, n) {
+        if (!head) return head;
+        // 把倒数第n个节点移除掉
+        let size = 0;
+
+        let cur = head;
+
+        while (cur) {
+          size++;
+          cur = cur.next;
+        }
+
+        if (n === size) {
+          return head.next;
+        }
+
+        let node = head;
+        let beforeRemove = size - n;
+
+        while (--beforeRemove) {
+          node = node.next;
+        }
+
+        node.next = node.next.next;
+
+        return head;
+      };
+
+      var removeNthFromEnd = function (head, n) {
+        // 这个复杂度会少很多，典型的就是可以不用循环两次
+        // 由于可能会删除链表头部，用哨兵节点简化代码
+        const dummy = new ListNode(0, head);
+        let left = dummy,
+          right = dummy;
+        while (n--) {
+          right = right.next; // 右指针先向右走 n 步
+        }
+        while (right.next) {
+          left = left.next;
+          right = right.next; // 左右指针一起走
+        }
+        left.next = left.next.next; // 左指针的下一个节点就是倒数第 n 个节点
+        return dummy.next;
+      };
+
+      function ListNode(val, next) {
+        this.val = val === undefined ? 0 : val;
+        this.next = next === undefined ? null : next;
+      }
+
+      // 有没有效率更高的方法呢？有，当我们想要定位某一个节点的时候，考虑使用快慢指针
+      // 如果我们想要寻找 倒数第n个节点，我们可以使用快慢指针，快指针先走n步
+      // 然后慢指针和快指针一起走，当快指针走到末尾的时候，慢指针正好走到倒数第n个节点
+
+      // 如何证明这一点呢？
+
+      // 当找到这个倒数节点的时候，我们只需要找到前驱节点，让它的前驱节点的指针指向他的下一个即可。
+
+      // 这样的时间复杂度就来到了 (N)O  而非(2N)O
+
+      const node1 = new ListNode(1);
+      const node2 = new ListNode(2);
+      const node3 = new ListNode(3);
+      const node4 = new ListNode(4);
+      const node5 = new ListNode(5);
+      const node6 = new ListNode(6);
+      const node7 = new ListNode(7);
+
+      node1.next = node2;
+      // node2.next = node3;
+      // node3.next = node4;
+      // node4.next = node5;
+      // node5.next = node6;
+      // node6.next = node7;
+
+      console.log(removeNthFromEnd(node1, 1));
+    </script>
+  </body>
+</html>
